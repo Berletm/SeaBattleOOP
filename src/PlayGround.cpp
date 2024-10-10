@@ -1,8 +1,8 @@
 #include "PlayGround.hpp"
 
 bool PlayGround::isInPlayGround(Point p) const {
-        return p.x < this->size && p.y < this->size;
-    }
+    return p.x < this->size && p.y < this->size;
+}
 
 bool PlayGround::checkCollision(Point p, Ship& ship, Ship::Orientation orientation) {
     for (size_t l = 0; l < ship.getSize(); ++l) {
@@ -33,7 +33,7 @@ bool PlayGround::checkCollision(Point p, Ship& ship, Ship::Orientation orientati
         }
     }
     return false;
-    }
+}
 
 void PlayGround::PlaceShip(Ship* ship, Point position, Ship::Orientation orientation) {
         if (ship == nullptr) {
@@ -46,14 +46,14 @@ void PlayGround::PlaceShip(Ship* ship, Point position, Ship::Orientation orienta
 
         if (orientation == Ship::Orientation::horizontal) {
             for(size_t x = position.x; x < position.x + ship->getSize(); ++x) {
-                cells[x][position.y].ChangeState(CellStates::ship);
+                cells[x][position.y].ChangeState(CellStates::unknown, ship, x - position.x);
             }
             ship->setCoords(position);
             ship->setOrientation(orientation);
         }
         else if (orientation == Ship::Orientation::vertical) {
             for(size_t y = position.y; y < position.y + ship->getSize(); ++y) {
-                cells[position.x][y].ChangeState(CellStates::ship);
+                cells[position.x][y].ChangeState(CellStates::unknown, ship, y - position.y);
             }
             ship->setCoords(position);
             ship->setOrientation(orientation);
@@ -61,81 +61,50 @@ void PlayGround::PlaceShip(Ship* ship, Point position, Ship::Orientation orienta
     }
 
 void PlayGround::DisplayPlayground() {
-        for (size_t y = 0; y < this->size; ++y) {
-            for (size_t x = 0; x < this->size; ++x) {
-                cout << "Amount of hits: " << hits_number << " " << "Amount of misses: " << miss_number << "\n";
-                cout << "Total accuracy: " << double(hits_number) / double(hits_number + miss_number) << "\n";
-                if (cells[x][y].GetState() == CellStates::unknown) {
-                    cout << "#" << " ";
-                }
-                else if (cells[x][y].GetState() == CellStates::empty) {
-                    cout << "*" << " ";
-                }
-                else if (cells[x][y].GetState() == CellStates::ship) {
-                    cout << "S" << " ";
-                }
+    cout << "Amount of hits: " << hits_number << " " << "Amount of misses: " << miss_number << "\n";
+    cout << "Total accuracy: " << double(hits_number) / double(hits_number + miss_number) << "\n";
+    for (size_t y = 0; y < this->size; ++y) {
+        for (size_t x = 0; x < this->size; ++x) {
+            if (cells[x][y].GetState() == CellStates::unknown) {
+                cout << "#" << " ";
             }
-            cout << '\n';
-        }
-    }
-
-void PlayGround::DisplayPlayground(ShipManager& Manager) {
-        cout << "Amount of hits: " << hits_number << " " << "Amount of misses: " << miss_number << "\n";
-        cout << "Total accuracy: " << double(hits_number) / double(hits_number + miss_number) << "\n";
-        for (size_t y = 0; y < this->size; ++y) {
-            for (size_t x = 0; x < this->size; ++x) {
-                if (cells[x][y].GetState() == CellStates::unknown) {
-                    cout << "#" << " ";
-                }
-                else if (cells[x][y].GetState() == CellStates::empty) {
-                    cout << "*" << " ";
-                }
-                else if (cells[x][y].GetState() == CellStates::ship) {
-                    cout << int(Manager.getShip({x, y})->getSegment({x, y})) << " ";
-                }
+            else if (cells[x][y].GetState() == CellStates::empty) {
+                cout << "*" << " ";
             }
-            cout << '\n';
+            else if (cells[x][y].GetState() == CellStates::ship) {
+                cout << size_t(cells[x][y].GetSegmentHP()) << " ";
+            }
         }
+        cout << '\n';
     }
+}
 
-void PlayGround::Attack(Point p, ShipManager& Manager) {
-        switch (this->cells[p.x][p.y].GetState()) {
-            case ship: {
-                Ship* ship = Manager.getShip(p);
-                if (ship->getOrientation() == Ship::Orientation::horizontal) {
-                        ship->changeSegmentState(p.x - ship->getCoords().x);
-                }
-                else {
-                    ship->changeSegmentState(p.y - ship->getCoords().y);
-                }
+void PlayGround::Attack(Point p) {
+    switch (this->cells[p.x][p.y].GetState()) {
+        case ship: {
+            cells[p.x][p.y].ChangeSegmentState();
+            cout << "Hit!\n";
+            hits_number += 1;
+            break;
+        }
+        case empty: {
+            cout << "Miss!\n";
+            miss_number += 1;
+            break;
+        }
+        case unknown: {
+            if (cells[p.x][p.y].GetShip()) {
                 cout << "Hit!\n";
                 hits_number += 1;
-                break;
+                this->cells[p.x][p.y].ChangeState(CellStates::ship);
+                cells[p.x][p.y].ChangeSegmentState();
             }
-            case empty: {
+            else {
                 cout << "Miss!\n";
                 miss_number += 1;
-                break;
+                this->cells[p.x][p.y].ChangeState(CellStates::empty);
             }
-            case unknown: {
-                Ship* ship =  Manager.getShip(p);
-                if (ship) {
-                    cout << "Hit!\n";
-                    hits_number += 1;
-                    this->cells[p.x][p.y].ChangeState(CellStates::ship);
-                    if (ship->getOrientation() == Ship::Orientation::horizontal) {
-                        ship->changeSegmentState(p.x - ship->getCoords().x);
-                    }
-                    else {
-                        ship->changeSegmentState(p.y - ship->getCoords().y);
-                    }
-                }
-                else {
-                    cout << "Miss!\n";
-                    miss_number += 1;
-                    this->cells[p.x][p.y].ChangeState(CellStates::empty);
-                }
-                break;
-            }
+            break;
         }
     }
+}

@@ -57,3 +57,16 @@ Ship::ShipStates Ship::getSegment(Point p) {
         }
         return segments[p.y - coords.y];
     }
+
+Ship::ShipStates Ship::getSegment(size_t idx) {
+        if (this->orientation == Ship::Orientation::horizontal) {
+            return segments[idx];
+        }
+        return segments[idx];
+    }
+
+void Ship::printShipHP() {
+    for(const auto& segment: segments) {
+        cout << int(segment) << " ";
+    }
+}

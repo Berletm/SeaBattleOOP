@@ -16,13 +16,30 @@ private:
         Cell(const Cell& other): state(other.state), ship(other.ship), segment_idx(other.segment_idx) {
         }
 
-        void ChangeState(CellStates new_state) {
+        void ChangeState(CellStates new_state, Ship* ship_ptr = nullptr, size_t segment_idx = -1) {
             this->state = new_state;
+            if (ship_ptr) {
+                this->ship = ship_ptr;
+                this->segment_idx = segment_idx;
+            }
         }
 
         CellStates GetState() const {
             return this->state;
         }
+
+        Ship::ShipStates GetSegmentHP() const {
+            return ship->getSegment(segment_idx);
+        }
+        
+        inline void ChangeSegmentState() {
+            ship->changeSegmentState(segment_idx);
+        }
+
+        Ship* GetShip() {
+            return ship;
+        }
+
     private:
         CellStates state;
         Ship* ship;
@@ -78,9 +95,7 @@ public:
 
     void DisplayPlayground();
 
-    void DisplayPlayground(ShipManager& Manager);
-
-    void Attack(Point p, ShipManager& Manager);
+    void Attack(Point p);
     
 };
 #endif

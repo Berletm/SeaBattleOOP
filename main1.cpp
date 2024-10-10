@@ -22,12 +22,13 @@ int main() {
         field.PlaceShip(Manager.getShip(), {5, 6}, Ship::Orientation::horizontal);
         field.PlaceShip(Manager.getShip(), {1, 5}, Ship::Orientation::vertical);
         for (size_t i = 0; i < 10; ++i) {
-            field.Attack({dist(gen), dist(gen)}, Manager);
-            field.DisplayPlayground(Manager);
+            field.Attack({dist(gen), dist(gen)});
+            field.DisplayPlayground();
             sleep(1);
             system("clear");
         }
-        field.DisplayPlayground(Manager);
+        field.DisplayPlayground();
+        Manager.printShips();
     }
     catch(const invalid_argument& e) {
         cout << e.what() << "\n";

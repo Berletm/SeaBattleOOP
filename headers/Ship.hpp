@@ -10,10 +10,9 @@ struct Point {
 };
 
 class Ship {
-    enum class ShipStates {destroyed_ship, damaged_ship, full_ship};
 public:
     enum class Orientation {vertical, horizontal};
-
+    enum class ShipStates {destroyed_ship, damaged_ship, full_ship};
     Ship(size_t size): size(size), isPlaced(false){
         if (size < 1 || size > 4) {
             throw invalid_argument("Ship size must be between 1 and 4.\n");
@@ -38,7 +37,10 @@ public:
     bool status();
     
     ShipStates getSegment(Point p);
+
+    ShipStates getSegment(size_t idx);
     
+    void printShipHP();
 private:
     Point coords;
     size_t size;

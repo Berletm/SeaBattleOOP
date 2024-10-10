@@ -2,7 +2,8 @@
 
 void ShipManager::printShips() {
         for(Ship& ship: ships) {
-            cout << ship.getSize() << '\n';
+            ship.printShipHP();
+            cout << "\n";
         }
     }
 
