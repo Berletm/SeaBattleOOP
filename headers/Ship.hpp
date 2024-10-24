@@ -2,12 +2,9 @@
 #define SHIP_HPP_
 #include <iostream>
 #include <vector>
-using namespace std;
+#include "GameException.hpp"
+#include "Point.hpp"
 
-struct Point {
-    size_t x;
-    size_t y;
-};
 
 class Ship {
 public:
@@ -15,7 +12,7 @@ public:
     enum class ShipStates {destroyed_ship, damaged_ship, full_ship};
     Ship(size_t size): size(size), isPlaced(false){
         if (size < 1 || size > 4) {
-            throw invalid_argument("Ship size must be between 1 and 4.\n");
+            throw WrongShipSizeException("Ship size must be between 1 and 4.\n");
         }
         segments.resize(size, ShipStates::full_ship);
     }
@@ -45,7 +42,7 @@ private:
     Point coords;
     size_t size;
     Orientation orientation;
-    vector<ShipStates> segments;
+    std::vector<ShipStates> segments;
     bool isPlaced;
 };
 

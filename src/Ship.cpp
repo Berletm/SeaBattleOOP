@@ -1,72 +1,73 @@
 #include "Ship.hpp"
 
 size_t Ship::getSize() {
-        return this->size;
-    }
+    return this->size;
+}
 
 void Ship::changeSize() {
-        if (this->size != 0) {
-            this->size--;
-        }
-        else {
-            cout << "ship is already destroyed\n";
-        }
+    if (this->size != 0) {
+        this->size--;
     }
+    else {
+        std::cout << "ship is already destroyed\n";
+    }
+}
 
 void Ship::setCoords(Point p) {
-        this->coords = {p.x, p.y};
-        isPlaced = true;
-    }
+    this->coords = {p.x, p.y};
+    isPlaced = true;
+}
 
 Point Ship::getCoords() {
-        return this->coords;
-    }
+    return this->coords;
+}
 
 Ship::Orientation Ship::getOrientation() {
-        return this->orientation;
-    }
+    return this->orientation;
+}
 
 void Ship::setOrientation(Orientation orientation) {
-        this->orientation = orientation;
-    }
+    this->orientation = orientation;
+}
 
 void Ship::changeSegmentState(size_t index) {
-        switch (segments[index]) {
-            case ShipStates::full_ship: {
-                segments[index] = ShipStates::damaged_ship;
-                break;
-            }
-            case ShipStates::damaged_ship: {
-                segments[index] = ShipStates::destroyed_ship;
-                break;
-            }
-            case ShipStates::destroyed_ship: {
-                cout << "Already destroyed this ship segment\n";
-                break;
-            }
+    switch (segments[index]) {
+        case ShipStates::full_ship: {
+            segments[index] = ShipStates::damaged_ship;
+            break;
+        }
+        case ShipStates::damaged_ship: {
+            segments[index] = ShipStates::destroyed_ship;
+            this->changeSize();
+            break;
+        }
+        case ShipStates::destroyed_ship: {
+            std::cout << "Already destroyed this ship segment\n";
+            break;
         }
     }
+}
 
 bool Ship::status() {
-        return this->isPlaced;
-    }
+    return this->isPlaced;
+}
 
 Ship::ShipStates Ship::getSegment(Point p) {
-        if (this->orientation == Ship::Orientation::horizontal) {
-            return segments[p.x - coords.x];
-        }
-        return segments[p.y - coords.y];
+    if (this->orientation == Ship::Orientation::horizontal) {
+        return segments[p.x - coords.x];
     }
+    return segments[p.y - coords.y];
+}
 
 Ship::ShipStates Ship::getSegment(size_t idx) {
-        if (this->orientation == Ship::Orientation::horizontal) {
-            return segments[idx];
-        }
+    if (this->orientation == Ship::Orientation::horizontal) {
         return segments[idx];
     }
+    return segments[idx];
+}
 
 void Ship::printShipHP() {
     for(const auto& segment: segments) {
-        cout << int(segment) << " ";
+        std::cout << int(segment) << " ";
     }
 }

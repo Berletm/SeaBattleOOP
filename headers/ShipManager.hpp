@@ -1,15 +1,12 @@
 #ifndef SHIP_MANAGER_HPP_
 #define SHIP_MANAGER_HPP_
-using namespace std;
-#include <iostream>
-#include <vector>
 #include "Ship.hpp"
 
 class ShipManager{
 public:
-    explicit ShipManager(size_t ship_amount, vector<size_t>& ship_sizes) {
+    explicit ShipManager(size_t ship_amount, std::vector<size_t>& ship_sizes) {
         if (ship_amount != ship_sizes.size()) {
-            throw invalid_argument("Ship amount must match amount of ship's sizes");
+            throw WrongShipAmountException("Ship amount must match amount of ship's sizes");
         }
         for(size_t size: ship_sizes) {
             ships.emplace_back(Ship(size));
@@ -29,12 +26,12 @@ public:
 
     //move constructor
     ShipManager(ShipManager&& other) {
-        swap(ships, other.ships);
+        std::swap(ships, other.ships);
     }
     
     ShipManager& operator= (ShipManager&& other) {
         if (this != &other) {
-            swap(ships, other.ships);
+            std::swap(ships, other.ships);
         }
         return *this;
     }
@@ -45,7 +42,10 @@ public:
 
     Ship* getShip(Point p);
     
+    Ship* getShip(size_t idx);
+    
+    size_t getShipAmount() const;
 private:
-    vector<Ship> ships;
+    std::vector<Ship> ships;
 };
 #endif
