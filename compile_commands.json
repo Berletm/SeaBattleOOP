@@ -1,0 +1,50 @@
+[
+{
+  "directory": "/home/maxim/study/3sem/oop",
+  "command": "/usr/bin/c++  -I/home/maxim/study/3sem/oop/headers -isystem /usr/include/c++/13 -isystem /usr/include/x86_64-linux-gnu/c++/13 -isystem /usr/include/c++/13/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/13/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include  -o CMakeFiles/SeaBattle.dir/main1.cpp.o -c /home/maxim/study/3sem/oop/main1.cpp",
+  "file": "/home/maxim/study/3sem/oop/main1.cpp",
+  "output": "CMakeFiles/SeaBattle.dir/main1.cpp.o"
+},
+{
+  "directory": "/home/maxim/study/3sem/oop",
+  "command": "/usr/bin/c++  -I/home/maxim/study/3sem/oop/headers -isystem /usr/include/c++/13 -isystem /usr/include/x86_64-linux-gnu/c++/13 -isystem /usr/include/c++/13/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/13/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include  -o CMakeFiles/SeaBattle.dir/src/AbilityManager.cpp.o -c /home/maxim/study/3sem/oop/src/AbilityManager.cpp",
+  "file": "/home/maxim/study/3sem/oop/src/AbilityManager.cpp",
+  "output": "CMakeFiles/SeaBattle.dir/src/AbilityManager.cpp.o"
+},
+{
+  "directory": "/home/maxim/study/3sem/oop",
+  "command": "/usr/bin/c++  -I/home/maxim/study/3sem/oop/headers -isystem /usr/include/c++/13 -isystem /usr/include/x86_64-linux-gnu/c++/13 -isystem /usr/include/c++/13/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/13/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include  -o CMakeFiles/SeaBattle.dir/src/Scanner.cpp.o -c /home/maxim/study/3sem/oop/src/Scanner.cpp",
+  "file": "/home/maxim/study/3sem/oop/src/Scanner.cpp",
+  "output": "CMakeFiles/SeaBattle.dir/src/Scanner.cpp.o"
+},
+{
+  "directory": "/home/maxim/study/3sem/oop",
+  "command": "/usr/bin/c++  -I/home/maxim/study/3sem/oop/headers -isystem /usr/include/c++/13 -isystem /usr/include/x86_64-linux-gnu/c++/13 -isystem /usr/include/c++/13/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/13/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include  -o CMakeFiles/SeaBattle.dir/src/DoubleDamage.cpp.o -c /home/maxim/study/3sem/oop/src/DoubleDamage.cpp",
+  "file": "/home/maxim/study/3sem/oop/src/DoubleDamage.cpp",
+  "output": "CMakeFiles/SeaBattle.dir/src/DoubleDamage.cpp.o"
+},
+{
+  "directory": "/home/maxim/study/3sem/oop",
+  "command": "/usr/bin/c++  -I/home/maxim/study/3sem/oop/headers -isystem /usr/include/c++/13 -isystem /usr/include/x86_64-linux-gnu/c++/13 -isystem /usr/include/c++/13/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/13/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include  -o CMakeFiles/SeaBattle.dir/src/RocketBarrage.cpp.o -c /home/maxim/study/3sem/oop/src/RocketBarrage.cpp",
+  "file": "/home/maxim/study/3sem/oop/src/RocketBarrage.cpp",
+  "output": "CMakeFiles/SeaBattle.dir/src/RocketBarrage.cpp.o"
+},
+{
+  "directory": "/home/maxim/study/3sem/oop",
+  "command": "/usr/bin/c++  -I/home/maxim/study/3sem/oop/headers -isystem /usr/include/c++/13 -isystem /usr/include/x86_64-linux-gnu/c++/13 -isystem /usr/include/c++/13/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/13/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include  -o CMakeFiles/SeaBattle.dir/src/PlayGround.cpp.o -c /home/maxim/study/3sem/oop/src/PlayGround.cpp",
+  "file": "/home/maxim/study/3sem/oop/src/PlayGround.cpp",
+  "output": "CMakeFiles/SeaBattle.dir/src/PlayGround.cpp.o"
+},
+{
+  "directory": "/home/maxim/study/3sem/oop",
+  "command": "/usr/bin/c++  -I/home/maxim/study/3sem/oop/headers -isystem /usr/include/c++/13 -isystem /usr/include/x86_64-linux-gnu/c++/13 -isystem /usr/include/c++/13/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/13/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include  -o CMakeFiles/SeaBattle.dir/src/Ship.cpp.o -c /home/maxim/study/3sem/oop/src/Ship.cpp",
+  "file": "/home/maxim/study/3sem/oop/src/Ship.cpp",
+  "output": "CMakeFiles/SeaBattle.dir/src/Ship.cpp.o"
+},
+{
+  "directory": "/home/maxim/study/3sem/oop",
+  "command": "/usr/bin/c++  -I/home/maxim/study/3sem/oop/headers -isystem /usr/include/c++/13 -isystem /usr/include/x86_64-linux-gnu/c++/13 -isystem /usr/include/c++/13/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/13/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include  -o CMakeFiles/SeaBattle.dir/src/ShipManager.cpp.o -c /home/maxim/study/3sem/oop/src/ShipManager.cpp",
+  "file": "/home/maxim/study/3sem/oop/src/ShipManager.cpp",
+  "output": "CMakeFiles/SeaBattle.dir/src/ShipManager.cpp.o"
+}
+]
