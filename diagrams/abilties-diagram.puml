@@ -1,46 +1,119 @@
 @startuml
-class "std::queue<std::unique_ptr<AbilityInterface>>" as C_0014774439470797125254
-class C_0014774439470797125254 {
+class "std::__detail::_Node_iterator<std::pair<std::string const,std::function<std::unique_ptr<AbilityInterface,std::default_delete<AbilityInterface>>(Player &,Player &)>>,__constant_iterators::value,__hash_cached::value>" as C_0004449643540916957189
+class C_0004449643540916957189 {
+__
+}
+class "std::string" as C_0001275076681856179721
+class C_0001275076681856179721 {
+__
+}
+class "std::unique_ptr<AbilityInterface>" as C_0001603642456660510360
+class C_0001603642456660510360 {
+__
+}
+class "std::function<std::unique_ptr<AbilityInterface>(Player &,Player &)>" as C_0007473334849562948175
+class C_0007473334849562948175 {
+__
+}
+class "std::unordered_map<std::string,std::function<std::unique_ptr<AbilityInterface>(Player &,Player &)>>" as C_0011220702600279671166
+class C_0011220702600279671166 {
+__
+}
+class "std::default_delete<AbilityInterface>" as C_0009005584129432802063
+class C_0009005584129432802063 {
+__
+}
+class "std::unique_ptr<AbilityInterface,std::default_delete<AbilityInterface>>" as C_0000030218166798540365
+class C_0000030218166798540365 {
+__
+}
+class "std::function<std::unique_ptr<AbilityInterface,std::default_delete<AbilityInterface>>(Player &,Player &)>" as C_0006940668744115959276
+class C_0006940668744115959276 {
+__
+}
+class "std::pair<std::string const,std::function<std::unique_ptr<AbilityInterface,std::default_delete<AbilityInterface>>(Player &,Player &)>>" as C_0007031707510986757882
+class C_0007031707510986757882 {
+__
+}
+class "std::queue<std::string>" as C_0006609828724228130343
+class C_0006609828724228130343 {
 __
 }
 abstract "AbilityInterface" as C_0018418403117949621286
 abstract C_0018418403117949621286 {
 +~AbilityInterface() = default : void
 ..
-{abstract} +applyAbility(PlayGround & Field, ShipManager & ShipManager, Point & point) = 0 : bool
-{abstract} +printAbility() = 0 : void
+{abstract} +applyAbility() const = 0 : bool
 __
 }
 class "DoubleDamage" as C_0000648866158297546465
 class C_0000648866158297546465 {
-+applyAbility(PlayGround & Field, ShipManager & ShipManager, Point & point) : bool
-+printAbility() : void
++DoubleDamage(Player & user) : void
+..
++applyAbility() const : bool
+{static} +registerAbility() : void
 __
+-user : Player &
 }
 class "Scanner" as C_0013402225055324596433
 class C_0013402225055324596433 {
-+applyAbility(PlayGround & Field, ShipManager & ShipManager, Point & point) : bool
-+printAbility() : void
++Scanner(Player & user, Player & target) : void
+..
++applyAbility() const : bool
+{static} +registerAbility() : void
 __
+-target : Player &
+-user : Player &
 }
 class "RocketBarrage" as C_0011998025940278914008
 class C_0011998025940278914008 {
-+applyAbility(PlayGround & Field, ShipManager & manager, Point & point) : bool
-+printAbility() : void
++RocketBarrage(Player & user, Player & target) : void
+..
++applyAbility() const : bool
+{static} +registerAbility() : void
 __
+-target : Player &
+-user : Player &
+}
+class "AbilityRegistry" as C_0016677220737534910727
+class C_0016677220737534910727 {
+-AbilityRegistry() = default : void
+..
++begin() : iterator
++createAbility(const std::string & name, Player & user, Player & target) : std::unique_ptr<AbilityInterface>
++end() : iterator
+{static} +instance() : AbilityRegistry &
++registerAbility(const std::string & name, AbilityCreator creator) : void
++size() : size_t
+__
+-abilityMap : Registry
+}
+class "AbilityRegistry::iterator" as C_0002165705464363680401
+class C_0002165705464363680401 {
++operator!=(const iterator & other) const : bool
++operator*() const : reference
++operator+(size_t n) const : iterator
++operator++() : iterator &
++operator->() const : pointer
+..
++iterator(std::__detail::_Node_iterator<std::string,AbilityCreator>::iterator start, std::__detail::_Node_iterator<std::string,AbilityCreator>::iterator end) : void
+__
+-current : std::unordered_map<std::string,AbilityCreator>::iterator
+-end : std::unordered_map<std::string,AbilityCreator>::iterator
 }
 class "AbilityManager" as C_0002235219345516323367
 class C_0002235219345516323367 {
 +AbilityManager() : void
 ..
-+ApplyAvalaibleAbillity(PlayGround & Field, ShipManager & ShipManager, Point point) : bool
 +emptyAbilityQueue() : void
 +getDoubleDamage() : void
 +getRandomAbility() : void
 +getRocketBarrage() : void
 +getScanner() : void
++pop() : void
++top() const : const std::string
 __
--avalaible_abilities : std::queue<std::unique_ptr<AbilityInterface>>
+-avalaible_abilities : std::queue<std::string>
 }
 enum "AbilityManager::Abilities" as C_0001910837611024354575
 enum C_0001910837611024354575 {
@@ -48,13 +121,53 @@ DoubleDamage
 Scanner
 RocketBarrage
 }
+class "Player" as C_0003605716991605700936
+class C_0003605716991605700936 {
+__
++Field : PlayGround &
++SManager : ShipManager &
++cursor : Point
++double_damage_buff : bool
+}
+C_0004449643540916957189 ..> C_0018418403117949621286
+C_0004449643540916957189 ..> C_0003605716991605700936
+C_0001603642456660510360 ..> C_0018418403117949621286
+C_0007473334849562948175 ..> C_0001603642456660510360
+C_0007473334849562948175 ..> C_0003605716991605700936
+C_0011220702600279671166 ..> C_0001275076681856179721
+C_0011220702600279671166 ..> C_0007473334849562948175
+C_0009005584129432802063 ..> C_0018418403117949621286
+C_0000030218166798540365 ..> C_0018418403117949621286
+C_0006940668744115959276 ..> C_0018418403117949621286
+C_0006940668744115959276 ..> C_0003605716991605700936
+C_0007031707510986757882 ..> C_0018418403117949621286
+C_0007031707510986757882 ..> C_0003605716991605700936
+C_0006609828724228130343 ..> C_0001275076681856179721
+C_0000648866158297546465 --> C_0003605716991605700936 : -user
 C_0018418403117949621286 <|-- C_0000648866158297546465
 
+C_0013402225055324596433 --> C_0003605716991605700936 : -target
+C_0013402225055324596433 --> C_0003605716991605700936 : -user
 C_0018418403117949621286 <|-- C_0013402225055324596433
 
+C_0011998025940278914008 --> C_0003605716991605700936 : -user
+C_0011998025940278914008 --> C_0003605716991605700936 : -target
 C_0018418403117949621286 <|-- C_0011998025940278914008
 
-C_0002235219345516323367 o-- C_0014774439470797125254 : -avalaible_abilities
+C_0016677220737534910727 ..> C_0001275076681856179721
+C_0016677220737534910727 ..> C_0007473334849562948175
+C_0016677220737534910727 ..> C_0003605716991605700936
+C_0016677220737534910727 ..> C_0001603642456660510360
+C_0016677220737534910727 ..> C_0018418403117949621286
+C_0016677220737534910727 ..> C_0002165705464363680401
+C_0016677220737534910727 o-- C_0011220702600279671166 : -abilityMap
+C_0002165705464363680401 --+ C_0016677220737534910727
+C_0002165705464363680401 ..> C_0007031707510986757882
+C_0002165705464363680401 ..> C_0001275076681856179721
+C_0002165705464363680401 o-- C_0004449643540916957189 : -current
+C_0002165705464363680401 o-- C_0004449643540916957189 : -end
+C_0002235219345516323367 ..> C_0001275076681856179721
+C_0002235219345516323367 o-- C_0006609828724228130343 : -avalaible_abilities
 C_0001910837611024354575 --+ C_0002235219345516323367
 
 'Generated with clang-uml, version 0.5.5

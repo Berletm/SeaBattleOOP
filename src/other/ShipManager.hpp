@@ -1,9 +1,12 @@
 #ifndef SHIP_MANAGER_HPP_
 #define SHIP_MANAGER_HPP_
+
 #include "Ship.hpp"
 
 class ShipManager{
 public:
+    ShipManager() {}
+
     explicit ShipManager(size_t ship_amount, std::vector<size_t>& ship_sizes) {
         if (ship_amount != ship_sizes.size()) {
             throw WrongShipAmountException("Ship amount must match amount of ship's sizes");

@@ -1,9 +1,10 @@
 #ifndef PLAYGROUND_HPP_
 #define PLAYGROUND_HPP_
+
 #include <vector>
-#include "AbilityManager.hpp"
+
+#include "ability/AbilityManager.hpp"
 #include "Ship.hpp"
-#include "GameException.hpp"
 
 enum class CellStates {empty, unknown, ship};
 class PlayGround{
@@ -41,15 +42,12 @@ private:
     };
 
     size_t size;
-    std::vector<std::vector<Cell>> cells; 
-    size_t miss_number;
-    size_t hits_number;
-    bool double_damage_buff;
+    std::vector<std::vector<Cell>> cells;
 
     bool checkCollision(Point p, Ship& ship, Ship::Orientation orientation);
 
 public:
-    explicit PlayGround(size_t size = 8): size(size), cells(size, std::vector<Cell>(size)), miss_number(0), hits_number(0), double_damage_buff(false) {
+    explicit PlayGround(size_t size = 8): size(size), cells(size, std::vector<Cell>(size)) {
         if (size > 20) {
             throw GameException("Too big playground size!\n");
         }
@@ -90,18 +88,16 @@ public:
     
     void DisplayPlaygroundWithOutFogOfWar();
 
-    void Attack(Point p, AbilityManager& AbilityManager);
-
-    void getDoubleDamageBuff();
-    
-    bool isUnderBuff();
-
-    void dispellBuff();
+    bool Attack(Point p);
 
     CellStates getCellState(Point p) const;
 
     size_t getFieldSize() const;
 
     bool isInPlayGround(Point p) const;
+
+    Ship* getShip(const Point& p) {
+        return cells[p.x][p.y].GetShip();
+    }
 };
 #endif

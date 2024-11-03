@@ -1,7 +1,9 @@
 #ifndef SHIP_HPP_
 #define SHIP_HPP_
+
 #include <iostream>
 #include <vector>
+
 #include "GameException.hpp"
 #include "Point.hpp"
 
@@ -18,8 +20,6 @@ public:
     }
 
     size_t getSize();
-    
-    void changeSize();
     
     void setCoords(Point p);
 
@@ -38,6 +38,8 @@ public:
     ShipStates getSegment(size_t idx);
     
     void printShipHP();
+
+    bool isDestroyed();
 private:
     Point coords;
     size_t size;

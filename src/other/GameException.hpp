@@ -1,5 +1,6 @@
 #ifndef GAME_EXCEPTION_HPP_
 #define GAME_EXCEPTION_HPP_
+
 #include <iostream>
 #include <string>
 

@@ -94,81 +94,42 @@ void PlayGround::DisplayPlaygroundWithOutFogOfWar() {
     }
 }
 
-void PlayGround::Attack(Point p, AbilityManager& AbilityManager) {
+bool PlayGround::Attack(Point p) {
     if (!isInPlayGround(p)) {
         throw OutOfFieldAttackException("Out of field attack is inaccessible");
     }
 
     switch (this->cells[p.x][p.y].GetState()) {
         case CellStates::ship: {
-            if (this->double_damage_buff) {
-                cells[p.x][p.y].ChangeSegmentState();
-                cells[p.x][p.y].ChangeSegmentState();
-                std::cout << "DD Hit!\n";
-                hits_number += 2;
-                this->double_damage_buff = false;
-                break;
-            }
-            else {
-                cells[p.x][p.y].ChangeSegmentState();
-                std::cout << "Hit!\n";
-                hits_number += 1;
-                break;
-            }
+            cells[p.x][p.y].ChangeSegmentState();
+            std::cout << "Hit!\n";
+            return true;
         }
         case CellStates::empty: {
-            if (this->double_damage_buff) {
-                this->double_damage_buff = false;
-            }
             std::cout << "Miss!\n";
-            miss_number += 1;
-            break;
+            return false;
         }
         case CellStates::unknown: {
             Ship* ship = cells[p.x][p.y].GetShip();
             if (ship) {
-                if (this->double_damage_buff) {
-                    std::cout << "DD HIT!\n";
-                    hits_number += 2;
-                    if (ship->getOrientation() == Ship::Orientation::horizontal) {
-                        this->cells[p.x][p.y].ChangeState(CellStates::ship, ship, p.x - ship->getCoords().x);
-                    }
-                    else {
-                        this->cells[p.x][p.y].ChangeState(CellStates::ship, ship, p.y - ship->getCoords().y);
-
-                    }
-                    this->cells[p.x][p.y].ChangeSegmentState();
-                    this->cells[p.x][p.y].ChangeSegmentState();
-                    this->double_damage_buff = false;
+                std::cout << "Hit!\n";
+                if (ship->getOrientation() == Ship::Orientation::horizontal) {
+                    this->cells[p.x][p.y].ChangeState(CellStates::ship, ship, p.x - ship->getCoords().x);
                 }
-                else { 
-                    std::cout << "Hit!\n";
-                    hits_number += 1;
-                    if (ship->getOrientation() == Ship::Orientation::horizontal) {
-                        this->cells[p.x][p.y].ChangeState(CellStates::ship, ship, p.x - ship->getCoords().x);
-                    }
-                    else {
-                        this->cells[p.x][p.y].ChangeState(CellStates::ship, ship, p.y - ship->getCoords().y);
+                else {
+                    this->cells[p.x][p.y].ChangeState(CellStates::ship, ship, p.y - ship->getCoords().y);
 
-                    }
-                    this->cells[p.x][p.y].ChangeSegmentState();
                 }
+                this->cells[p.x][p.y].ChangeSegmentState();
+                return true;
             }
             else {
-                if (this->double_damage_buff) {
-                    this->double_damage_buff = false;
-                }
                 std::cout << "Miss!\n";
-                miss_number += 1;
                 this->cells[p.x][p.y].ChangeState(CellStates::empty);
+                return false;
             }
-            break;
         }
     }
-}
-
-void PlayGround::getDoubleDamageBuff() {
-    this->double_damage_buff = true;
 }
 
 CellStates PlayGround::getCellState(Point p) const{
@@ -188,12 +149,4 @@ void PlayGround::Cell::ChangeState(CellStates new_state, Ship* ship_ptr, size_t 
         this->ship = ship_ptr;
         this->segment_idx = segment_idx;
     }
-}
-
-bool PlayGround::isUnderBuff() {
-    return this->double_damage_buff;
-}
-
-void PlayGround::dispellBuff() {
-    this->double_damage_buff = false;
 }

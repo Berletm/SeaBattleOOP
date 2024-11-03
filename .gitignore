@@ -1,3 +1,5 @@
 #ignore temporary files
-
+build
 .README.md.swp
+.vscode
+plantuml.jar

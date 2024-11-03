@@ -6,25 +6,17 @@ diagrams:
   full-diagram:
     type: class
     glob:
-      - src/*.cpp
-      - headers/*.hpp
+      - src/other/*.cpp
+      - src/other/*.hpp
+      - src/ability/*.cpp
+      - src/ability/*.hpp
   abilties-diagram:
     type: class
     glob:
-      - src/AbilityManager.cpp
-      - src/DoubleDamage.cpp
-      - src/RocketBarrage.cpp
-      - src/Scanner.cpp
-      - src/AbilityInterface.cpp
-      - headers/AbilityManager.hpp
-      - headers/AbilityInterface.hpp
-      - headers/DoubleDamage.hpp
-      - headers/RocketBarrage.hpp
-      - headers/Scanner.hpp
+      - src/ability/*.cpp
+      - src/ability/*.hpp
     include:
       context:
         - AbilityInterface
         - AbilityManager
-    exclude:
-      relationships:
-        - dependency
+        - AbilityRegistry

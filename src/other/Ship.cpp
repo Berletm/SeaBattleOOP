@@ -4,15 +4,6 @@ size_t Ship::getSize() {
     return this->size;
 }
 
-void Ship::changeSize() {
-    if (this->size != 0) {
-        this->size--;
-    }
-    else {
-        std::cout << "ship is already destroyed\n";
-    }
-}
-
 void Ship::setCoords(Point p) {
     this->coords = {p.x, p.y};
     isPlaced = true;
@@ -38,7 +29,6 @@ void Ship::changeSegmentState(size_t index) {
         }
         case ShipStates::damaged_ship: {
             segments[index] = ShipStates::destroyed_ship;
-            this->changeSize();
             break;
         }
         case ShipStates::destroyed_ship: {
@@ -70,4 +60,13 @@ void Ship::printShipHP() {
     for(const auto& segment: segments) {
         std::cout << int(segment) << " ";
     }
+}
+
+bool Ship::isDestroyed() {
+    for (const auto& segment: segments) {
+        if (segment != ShipStates::destroyed_ship) {
+            return false;
+        }
+    }
+    return true;
 }
