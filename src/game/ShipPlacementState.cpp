@@ -1,5 +1,6 @@
 #include "ShipPlacementState.hpp"
 #include "BattleState.hpp"
+#include <chrono>
 
 void ShipPlacementState::operator<<(GameInput msg) {
     while(Ship* player_ship = Getplayer().SManager.getShip()) {
@@ -24,7 +25,7 @@ void ShipPlacementState::operator<<(GameInput msg) {
 }
 
 void ShipPlacementState::BotShipPlacement() {
-    std::mt19937 rnd;
+    std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<size_t> dist(0, Getbot().Field.getFieldSize() - 1);
 
     while(Ship* bot_ship = Getbot().SManager.getShip()) {

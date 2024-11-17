@@ -70,6 +70,10 @@ json ShipManager::to_json() const {
     return save_file;
 }
 
-std::vector<size_t>& ShipManager::getShipSizes() {
-    return ship_sizes;
+std::vector<size_t> ShipManager::getShipSizes() {
+    std::vector<size_t> res;
+    for (const auto& ship: ships) {
+        res.push_back(ship.getSize());
+    }
+    return res;
 }

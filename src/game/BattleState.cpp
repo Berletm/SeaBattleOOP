@@ -1,8 +1,9 @@
 #include "BattleState.hpp"
 #include "ShipPlacementState.hpp"
+#include <chrono>
 
 void BattleState::operator<<(GameInput msg) {
-    std::mt19937 rnd;
+    std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
     std::uniform_int_distribution<size_t> dist(0, Getbot().Field.getFieldSize() - 1);
 
     while (game.IsRunning() && Getplayer().SManager.getCurrentShipAmount() && Getbot().SManager.getCurrentShipAmount()) {

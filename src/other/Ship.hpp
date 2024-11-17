@@ -27,7 +27,7 @@ public:
     Ship(Point& coords, size_t size, Orientation& orientation, std::vector<ShipStates>& segments, bool status):
      coords(coords), size(size), orientation(orientation), segments(segments), isPlaced(status) {}
 
-    size_t getSize();
+    size_t getSize() const;
     
     void setCoords(Point p);
 
