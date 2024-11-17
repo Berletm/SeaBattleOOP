@@ -12,6 +12,6 @@ include_directories(SeaBattle src)
 
 add_subdirectory(src)
 
-find_package(SFML 2.6.1 COMPONENTS graphics window system REQUIRED)
+find_package(nlohmann_json 3.2.0 REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
+target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json)

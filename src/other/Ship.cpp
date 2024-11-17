@@ -62,7 +62,7 @@ void Ship::printShipHP() {
     }
 }
 
-bool Ship::isDestroyed() {
+bool Ship::isDestroyed() const {
     for (const auto& segment: segments) {
         if (segment != ShipStates::destroyed_ship) {
             return false;

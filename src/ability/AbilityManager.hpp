@@ -7,30 +7,27 @@
 #include <algorithm>
 #include <random>
 #include <tuple>
+#include <nlohmann/json.hpp>
 
 #include "other/GameException.hpp"
-
 #include "DoubleDamage.hpp"
 #include "Scanner.hpp"
 #include "RocketBarrage.hpp"
-
 #include "AbilityInterface.hpp"
 #include "AbilityRegistry.hpp"
+
+using json = nlohmann::json;
 
 class AbilityManager {
 public:
     explicit AbilityManager() {
-        std::vector<std::string> shuffle_abillitites;
         for (const auto& ability: AbilityRegistry::instance()) {
-            shuffle_abillitites.push_back(ability);
+            avalaible_abilities.push_back(ability);
         }
+        
         std::random_device rd;
         std::mt19937 generator(rd());
-        shuffle(shuffle_abillitites.begin(), shuffle_abillitites.end(), generator);
-
-        for (auto& abillity: shuffle_abillitites) {
-            avalaible_abilities.push(abillity);
-        }
+        shuffle(avalaible_abilities.begin(), avalaible_abilities.end(), generator);
     }
 
     const std::string top() const;
@@ -46,8 +43,12 @@ public:
     void getScanner();
     
     void getDoubleDamage();
+
+    void getAbility(const std::string& ability);
+
+    json to_json();
 private:
-    std::queue<std::string> avalaible_abilities;
+    std::vector<std::string> avalaible_abilities;
 };
 
 #endif
