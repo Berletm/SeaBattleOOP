@@ -11,8 +11,9 @@ class ShipManager{
 public:
     ShipManager() {}
 
-    explicit ShipManager(size_t ship_amount, std::vector<size_t>& ship_sizes): ship_amount(ship_amount), ship_sizes(ship_sizes) {
+    explicit ShipManager(size_t ship_amount, std::vector<size_t> ship_sizes): ship_amount(ship_amount){
         if (ship_amount != ship_sizes.size()) {
+            std::cout << ship_amount << ship_sizes.size() << std::endl;
             throw WrongShipAmountException("Ship amount must match amount of ship's sizes");
         }
         sort(ship_sizes.begin(), ship_sizes.end());
@@ -55,16 +56,15 @@ public:
     
     size_t getShipAmount() const;
 
-    std::vector<size_t>& getShipSizes();
-
     size_t getCurrentShipAmount() const;
 
     void addShip(Ship ship);
 
     json to_json() const;
+
+    std::vector<size_t> getShipSizes();
 private:
     std::vector<Ship> ships;
-    std::vector<size_t> ship_sizes;
     size_t ship_amount;
 };
 #endif

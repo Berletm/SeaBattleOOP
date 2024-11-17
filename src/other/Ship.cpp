@@ -1,6 +1,6 @@
 #include "Ship.hpp"
 
-size_t Ship::getSize() {
+size_t Ship::getSize() const{
     return this->size;
 }
 

@@ -11,7 +11,7 @@ private:
     size_t ship_counter;
     ShipData data;
 public:
-    inline ShipInitializationState(Game& game): GameState(game), ship_counter(0) {
+    inline ShipInitializationState(Game& game): GameState(game) {
         std::cout << "Input ship amount" << std::endl;
         std::cin >> ship_counter;
         data = {
