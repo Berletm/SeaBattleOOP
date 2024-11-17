@@ -41,3 +41,35 @@ size_t ShipManager::getShipAmount() const {
 Ship* ShipManager::getShip(size_t idx) {
     return &ships[idx];
 }
+
+size_t ShipManager::getCurrentShipAmount() const{
+    size_t counter = 0;
+    for (const auto& ship: ships) {
+        if (!ship.isDestroyed()) {
+            counter++;
+        }
+    }
+    return counter;
+}
+
+void ShipManager::addShip(Ship ship) {
+    this->ships.push_back(ship);
+}
+
+json ShipManager::to_json() const {
+    json save_file;
+    json ships_array = json::array();
+
+    save_file["ship amount"] = ship_amount;
+
+    for (const auto& ship: ships) {
+        ships_array.push_back(ship.to_json());
+    }
+
+    save_file["ships"] = ships_array;
+    return save_file;
+}
+
+std::vector<size_t>& ShipManager::getShipSizes() {
+    return ship_sizes;
+}

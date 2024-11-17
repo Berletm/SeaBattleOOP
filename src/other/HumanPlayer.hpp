@@ -3,14 +3,16 @@
 
 #include "ability/AbilityManager.hpp"
 #include "Player.hpp"
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 struct HumanPlayer: public Player {
-    AbilityManager& AManager;
+    AbilityManager AManager;
 
-    HumanPlayer(PlayGround& Field, ShipManager& SManager, AbilityManager& AbilityManager);
-    
     void attack(Player& target);
     void applyAbility(Player& target);
+    json to_json();
 };
 
 #endif

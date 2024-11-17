@@ -139,7 +139,7 @@ CellStates PlayGround::getCellState(Point p) const{
     return CellStates::unknown;
 }
 
-inline size_t PlayGround::getFieldSize() const{
+size_t PlayGround::getFieldSize() const{
     return this->size;
 }
 

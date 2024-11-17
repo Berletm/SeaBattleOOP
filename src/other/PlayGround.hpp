@@ -2,14 +2,18 @@
 #define PLAYGROUND_HPP_
 
 #include <vector>
-
+#include <nlohmann/json.hpp>
+#include <fstream>
 #include "ability/AbilityManager.hpp"
 #include "Ship.hpp"
+
+using json = nlohmann::json;
 
 enum class CellStates {empty, unknown, ship};
 class PlayGround{
 private:
     class Cell {
+    friend class PlayGround;
     public:
         Cell(CellStates state = CellStates::unknown): state(state), ship(nullptr){
         }
@@ -35,13 +39,30 @@ private:
             return ship;
         }
 
+        json to_json() const {
+            if (ship) {
+                return json{
+                    {"state", state},
+                    {"ship", ship->to_json()},
+                    {"segment idx", segment_idx}
+                };
+            }
+            else {
+                return json{
+                    {"state", state},
+                    {"ship", nullptr},
+                    {"segment idx", segment_idx}
+                };
+            }
+        }
+
     private:
         CellStates state;
         Ship* ship;
         size_t segment_idx;
     };
 
-    size_t size;
+    size_t size;    
     std::vector<std::vector<Cell>> cells;
 
     bool checkCollision(Point p, Ship& ship, Ship::Orientation orientation);
@@ -98,6 +119,27 @@ public:
 
     Ship* getShip(const Point& p) {
         return cells[p.x][p.y].GetShip();
+    }
+
+    json to_json() const {
+        json save_file;
+        save_file["size"] = size;
+        json cells = json::array();
+        for (size_t y = 0; y < size; ++y) {
+            json j_row = json::array();
+            for (size_t x = 0; x < size; ++x) {
+                j_row.push_back(this->cells[x][y].to_json());
+            }
+            cells.push_back(j_row);
+        }
+        save_file["cells"] = cells;
+        return save_file;
+    }
+
+    void change_cell(Point p, Ship* ship, CellStates state, size_t segement_idx) {
+        this->cells[p.x][p.y].ship = ship;
+        this->cells[p.x][p.y].state = state;
+        this->cells[p.x][p.y].segment_idx = segement_idx;
     }
 };
 #endif
