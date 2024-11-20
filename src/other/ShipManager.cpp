@@ -52,15 +52,13 @@ size_t ShipManager::getCurrentShipAmount() const{
     return counter;
 }
 
-void ShipManager::addShip(Ship ship) {
+void ShipManager::addShip(Ship& ship) {
     this->ships.push_back(ship);
 }
 
 json ShipManager::to_json() const {
     json save_file;
     json ships_array = json::array();
-
-    save_file["ship amount"] = ship_amount;
 
     for (const auto& ship: ships) {
         ships_array.push_back(ship.to_json());

@@ -16,13 +16,15 @@ void Game::StartNewGame() {
 }
 
 void Game::Play() {
+    is_running = true;
+    std::cout << "Enter 'l' to load or press any key to start new game" << std::endl;
     if (input.InputAction() == GameInput::action::LOAD) {
+        std::cout << "Enter save file name" << std::endl;
         std::string save_file;
         std::cin >> save_file;
         current_state->load(save_file);
         this->ChangeState(new BattleState(*this));
     }
-    is_running = true;
     StartNewGame();
 }
 

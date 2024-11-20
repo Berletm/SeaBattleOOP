@@ -26,9 +26,13 @@ ShipManager GameState::shipmanager_from_json(const json& save_file) {
         Point coords = Point(ship["coords"][0], ship["coords"][1]);
         size_t size = ship["size"];
         bool status = ship["isPlaced"];
-        Ship::Orientation orientation = ship["Orientation"];
-        std::vector<Ship::ShipStates> segments = ship["segments"];
-        ShipManager.addShip(Ship(coords, size, orientation, segments, status));
+        Ship::Orientation orientation = Ship::Orientation(ship["Orientation"]);
+        std::vector<Ship::ShipStates> segments;
+        for (auto& segment: ship["segments"]) {
+            segments.push_back(Ship::ShipStates(segment));
+        }
+        Ship s(coords, size, orientation, segments, status);
+        ShipManager.addShip(s);
     }
     
     return ShipManager;
@@ -39,8 +43,8 @@ PlayGround GameState::field_from_json(const json& save_file) {
 
     const auto& cells = save_file["cells"];
 
-    for (size_t y = 0; y < Field.getFieldSize(); ++y) {
-        for (size_t x = 0; x < Field.getFieldSize(); ++x) {
+    for (size_t x = 0; x < Field.getFieldSize(); ++x) {
+        for (size_t y = 0; y < Field.getFieldSize(); ++y) {
             Ship* ship = nullptr;
 
             if (!cells[x][y]["ship"].is_null()) {
@@ -52,9 +56,10 @@ PlayGround GameState::field_from_json(const json& save_file) {
                 ship = new Ship(coords, size, orientation, segments, status);
             }
 
-            Field.change_cell({x, y}, ship, cells[x][y]["state"], cells[x][y]["segment idx"]);
+            Field.change_cell({x, y}, ship, CellStates(cells[x][y]["state"]), size_t(cells[x][y]["segment idx"]));
         }
     }
+
     return Field;
 }
 
@@ -106,13 +111,13 @@ std::istream& operator>>(std::istream& is, GameState& state) {
 
     state.Getplayer().SManager = std::move(state.shipmanager_from_json(player_shipmanager_data));
     state.Getplayer().Field = std::move(state.field_from_json(player_field_data));
-    state.Getplayer().AManager = std::move(state.abilitymanager_from_json(abilitymanager_data));
-    state.Getplayer().cursor = std::move(Point(player_cursor_data[0], player_cursor_data[1]));
+    state.Getplayer().AManager = state.abilitymanager_from_json(abilitymanager_data);
+    state.Getplayer().cursor = Point(player_cursor_data[0], player_cursor_data[1]);
     state.Getplayer().double_damage_buff = player_buff_data;
 
     state.Getbot().SManager = std::move(state.shipmanager_from_json(bot_shipmanager_data));
     state.Getbot().Field = std::move(state.field_from_json(bot_field_data));
-    state.Getbot().cursor = std::move(Point(bot_cursor_data[0], bot_cursor_data[1]));
+    state.Getbot().cursor = Point(bot_cursor_data[0], bot_cursor_data[1]);
     state.Getbot().double_damage_buff = bot_buff_data;
 
     return is;

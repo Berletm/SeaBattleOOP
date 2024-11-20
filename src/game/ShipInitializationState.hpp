@@ -7,13 +7,15 @@
 
 class ShipInitializationState final: public GameState {
 private:
+    static constexpr size_t freedom_coefficient = 0;
     std::vector<size_t> ship_sizes;
+    ssize_t points;
     size_t ship_counter;
     ShipData data;
 public:
     inline ShipInitializationState(Game& game): GameState(game) {
-        std::cout << "Input ship amount" << std::endl;
-        std::cin >> ship_counter;
+        points = pow(Getplayer().Field.getFieldSize(), 2);
+        ship_counter = 0;
         data = {
             {ShipType::battleship, 0},
             {ShipType::cruiser, 0},
@@ -22,6 +24,8 @@ public:
         };
     };
     void operator<<(GameInput msg);
+
+    size_t convert_ship_size_to_points(size_t size);
 };
 
 #endif

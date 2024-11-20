@@ -15,13 +15,12 @@ private:
     class Cell {
     friend class PlayGround;
     public:
-        Cell(CellStates state = CellStates::unknown): state(state), ship(nullptr){
-        }
+        Cell(CellStates state = CellStates::unknown): state(state), ship(nullptr), segment_idx(0) 
+        {}
 
-        Cell(const Cell& other): state(other.state), ship(other.ship), segment_idx(other.segment_idx) {
-        }
+        Cell(const Cell& other): state(other.state), ship(other.ship), segment_idx(other.segment_idx) {}
 
-        void ChangeState(CellStates new_state, Ship* ship_ptr = nullptr, size_t segment_idx = -1);
+        void ChangeState(CellStates new_state, Ship* ship_ptr = nullptr, size_t segment_idx = 0);
 
         CellStates GetState() const {
             return this->state;
@@ -71,6 +70,9 @@ public:
     explicit PlayGround(size_t size = 8): size(size), cells(size, std::vector<Cell>(size)) {
         if (size > 20) {
             throw GameException("Too big playground size!\n");
+        }
+        if (size <= 1) {
+            throw GameException("Too shmall playground size\n");
         }
     }
 
@@ -125,9 +127,9 @@ public:
         json save_file;
         save_file["size"] = size;
         json cells = json::array();
-        for (size_t y = 0; y < size; ++y) {
+        for (size_t x = 0; x < size; ++x) {
             json j_row = json::array();
-            for (size_t x = 0; x < size; ++x) {
+            for (size_t y = 0; y < size; ++y) {
                 j_row.push_back(this->cells[x][y].to_json());
             }
             cells.push_back(j_row);
@@ -141,5 +143,7 @@ public:
         this->cells[p.x][p.y].state = state;
         this->cells[p.x][p.y].segment_idx = segement_idx;
     }
+
+    const size_t get_current_ship_amount();
 };
 #endif

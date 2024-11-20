@@ -10,7 +10,6 @@ void BattleState::operator<<(GameInput msg) {
         if (current_turn == Turn::HUMAN) {
             auto action = msg.InputAction();
             if (action == GameInput::action::PRIMARY_ACTION) {
-                //system("clear");
                 while (msg.InputXY(Getplayer().cursor)) {
                     system("clear");
                     std::cout << "x = " << Getplayer().cursor.x << " y = " << Getplayer().cursor.y << std::endl;
@@ -21,17 +20,25 @@ void BattleState::operator<<(GameInput msg) {
                     Getbot().Field.DisplayPlayground();
                 }
                 catch (const OutOfFieldAttackException& e) {
-                    e.what();
+                    std::cout << e.what() << std::endl;
+
                     continue;
                 }
             }
             else if (action == GameInput::action::SECONDARY_ACTION) {
-                Getplayer().applyAbility(Getbot());
+                system("clear");
+                try {
+                    Getplayer().applyAbility(Getbot());
+                }
+                catch (const NoAbilityException& e) {
+                    std::cout << e.what() << std::endl;
+                }
+                continue;
             }
             else if (action == GameInput::action::SAVE) {
                 std::cout << "Input save file name" << std::endl;
-                std::string file_name = "save1.json";
-                //std::cin >> file_name;
+                std::string file_name;
+                std::cin >> file_name;
                 save(file_name);
                 game.Quit();
             }
@@ -58,6 +65,7 @@ void BattleState::operator<<(GameInput msg) {
         NextRound();
     }
     else {
+        std::cout << "You lost the game" << std::endl;
         game.Quit();
     }
 }

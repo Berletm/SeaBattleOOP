@@ -1,22 +1,56 @@
 # Change to directory where compile_commands.json is
-compilation_database_dir: .
+compilation_database_dir: build/
 # Change to directory where diagram should be written
 output_directory: diagrams
 diagrams:
-  full-diagram:
-    type: class
-    glob:
-      - src/other/*.cpp
-      - src/other/*.hpp
-      - src/ability/*.cpp
-      - src/ability/*.hpp
   abilties-diagram:
     type: class
     glob:
       - src/ability/*.cpp
       - src/ability/*.hpp
+    exclude:
+      namespaces:
+        - std
+        - nlohmann
+      elements:
+        - Point
+
     include:
       context:
         - AbilityInterface
         - AbilityManager
         - AbilityRegistry
+  
+  game-diagram:
+    type: class
+    glob:
+      - src/game/*.cpp
+      - src/game/*.hpp
+
+      - src/other/Player.cpp
+      - src/other/HumanPlayer.cpp
+
+      - src/other/Player.hpp
+      - src/other/HumanPlayer.hpp
+    include:
+      context:
+        - GameState
+        - GameInput
+        - FileHandler
+        - Player
+        - HumanPlayer
+    exclude:
+      namespaces:
+        - std
+      relationships:
+        - dependency
+      elements:
+        - ShipManager
+        - PlayGround
+        - AbilityManager
+        - Ship
+        - Point
+        - AbilityRegistry
+        - Scanner
+        - DoubleDamage
+        - RocketBarrage

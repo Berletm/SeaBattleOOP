@@ -7,11 +7,11 @@ bool GameInput::InputXY(Point& p) {
     GameInput::action act = ConvertStringToAction(input);
     switch (act) {
         case action::CURSOR_DOWN: {
-            if (p.y > 0) p.y--;
+            p.y++;
             break;
         }
         case action::CURSOR_UP: {
-            p.y++;
+            if (p.y > 0) p.y--;
             break;
         }
         case action::CURSOR_LEFT: {
