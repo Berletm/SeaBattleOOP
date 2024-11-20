@@ -2,6 +2,7 @@
 #define SHIPS_DATA_HPP_
 
 #include <map>
+#include <iostream>
 
 enum class ShipType {vedette = 1, destroyer, cruiser, battleship};
 

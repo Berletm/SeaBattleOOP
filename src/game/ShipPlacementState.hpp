@@ -7,7 +7,7 @@
 class ShipPlacementState final: public GameState {
 public:
     inline explicit ShipPlacementState(Game& game): GameState(game) {
-        std::cout << "Now place your ships!" << std::endl;
+        //std::cout << "Now place your ships!" << std::endl;
     }
 
     void operator<<(GameInput msg);

@@ -3,6 +3,7 @@
 #include <chrono>
 
 void ShipPlacementState::operator<<(GameInput msg) {
+    std::cout << "Now place your ships!" << std::endl;
     while(Ship* player_ship = Getplayer().SManager.getShip()) {
         Point& player_cursor = Getplayer().cursor;
         Ship::Orientation rotate = Ship::Orientation::horizontal;
@@ -16,7 +17,7 @@ void ShipPlacementState::operator<<(GameInput msg) {
             Getplayer().Field.PlaceShip(player_ship, player_cursor, rotate);
         }
         catch (const CollisionException& e) {
-            std::cout << "Try again///" << std::endl;
+            std::cout << "Can not place ship here, try again" << std::endl;
             continue;
         }
     }

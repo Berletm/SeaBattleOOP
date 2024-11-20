@@ -1,0 +1,153 @@
+@startuml
+class "Player" as C_0003605716991605700936
+class C_0003605716991605700936 {
++to_json() : json
+__
++Field : PlayGround
++SManager : ShipManager
++cursor : Point
++double_damage_buff : bool
+}
+class "HumanPlayer" as C_0006734864703741281718
+class C_0006734864703741281718 {
++applyAbility(Player & target) : void
++attack(Player & target) : void
++to_json() : json
+__
++AManager : AbilityManager
+}
+class "GameInput" as C_0004247110065670081973
+class C_0004247110065670081973 {
++operator>>(Game & game) : void
+..
++ConvertStringToAction(std::string input) : action
++InputAction() : action
++InputX(size_t & x) : bool
++InputXY(Point & p) : bool
++InputXYR(Point & p, Ship::Orientation & r) : bool
+__
+#keybinds : std::unordered_map<char,action>
+}
+enum "GameInput::action" as C_0016022673017162080147
+enum C_0016022673017162080147 {
+CURSOR_DOWN
+CURSOR_UP
+CURSOR_LEFT
+CURSOR_RIGHT
+PRIMARY_ACTION
+ROTATE
+SECONDARY_ACTION
+SAVE
+LOAD
+}
+abstract "GameState" as C_0004356735495323104445
+abstract C_0004356735495323104445 {
++GameState(Game & game) : void
++~GameState() : void
+..
+{abstract} +operator<<(GameInput msg) = 0 : void
+..
+#Getbot() : Player &
+#Getplayer() : HumanPlayer &
++abilitymanager_from_json(const json & save_file) : AbilityManager
++field_from_json(const json & save_file) : PlayGround
++load(const std::string & file_name) : bool
++save(const std::string & file_name) : bool
++shipmanager_from_json(const json & save_file) : ShipManager
+__
+#game : Game &
+}
+class "FileHandler" as C_0002918291441898942593
+class C_0002918291441898942593 {
++FileHandler(const std::string & filename) : void
++~FileHandler() : void
+..
++close_read() : void
++close_write() : void
++open_for_read() : void
++open_for_write() : void
++read(GameState & current_state) : void
++write(GameState & current_state) : void
+__
+-filename : const std::string &
+-input_file : std::ifstream
+-output_file : std::ofstream
+}
+class "BattleState" as C_0008183552386718209794
+class C_0008183552386718209794 {
++BattleState(Game & game) : void
+..
++operator<<(GameInput msg) : void
+..
++NextRound() : void
++SwitchTurn() : void
+__
+-current_turn : Turn
+}
+class "Game" as C_0017470460303031448044
+class C_0017470460303031448044 {
++Game() : void
++~Game() : void
+..
++ChangeState(GameState * new_state) : void
++IsRunning() : bool
++Play() : void
++Quit() : void
+-StartNewGame() : void
+__
+#bot : Player
+#current_state : GameState *
+#input : GameInput
+-is_running : bool
+#player : HumanPlayer
+}
+class "ShipPlacementState" as C_0016491408947504022071
+class C_0016491408947504022071 {
++ShipPlacementState(Game & game) : void
+..
++operator<<(GameInput msg) : void
+..
++BotShipPlacement() : void
+__
+}
+class "FieldCreatingState" as C_0012851784163152180326
+class C_0012851784163152180326 {
++FieldCreatingState(Game & game) : void
+..
++operator<<(GameInput msg) : void
+__
+-size : size_t
+}
+class "ShipInitializationState" as C_0011364344354936028514
+class C_0011364344354936028514 {
++ShipInitializationState(Game & game) : void
+..
++operator<<(GameInput msg) : void
+__
+-data : ShipData
+-ship_counter : size_t
+-ship_sizes : std::vector<size_t>
+}
+C_0003605716991605700936 <|-- C_0006734864703741281718
+
+C_0004247110065670081973 <.. C_0017470460303031448044 : +<<friend>>
+C_0004247110065670081973 <.. C_0008183552386718209794 : +<<friend>>
+C_0016022673017162080147 --+ C_0004247110065670081973
+C_0004356735495323104445 --> C_0017470460303031448044 : #game
+C_0004356735495323104445 <|-- C_0008183552386718209794
+
+C_0017470460303031448044 o-- C_0004247110065670081973 : #input
+C_0017470460303031448044 o-- C_0003605716991605700936 : #bot
+C_0017470460303031448044 o-- C_0006734864703741281718 : #player
+C_0017470460303031448044 --> C_0004356735495323104445 : #current_state
+C_0017470460303031448044 <.. C_0004356735495323104445 : +<<friend>>
+C_0004356735495323104445 <|-- C_0016491408947504022071
+
+C_0004356735495323104445 <|-- C_0012851784163152180326
+
+C_0004356735495323104445 <|-- C_0011364344354936028514
+
+
+'Generated with clang-uml, version 0.5.5
+'LLVM version Ubuntu clang version 18.1.3 (1ubuntu1)
+@enduml

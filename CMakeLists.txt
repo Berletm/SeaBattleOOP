@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 
+#add_compile_options(-fsanitize=address)
+#add_link_options(-fsanitize=address)
+
 project(SeaBattle)
 
 if(CMAKE_EXPORT_COMPILE_COMMANDS)

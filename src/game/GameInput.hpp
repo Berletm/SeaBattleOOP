@@ -21,7 +21,6 @@ protected:
         {'l', action::LOAD}
     };
 public:
-    void operator>>(Game& game);
     action ConvertStringToAction(std::string input);
     bool InputXYR(Point& p, Ship::Orientation& r);
     bool InputXY(Point& p);
