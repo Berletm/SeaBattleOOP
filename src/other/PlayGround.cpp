@@ -46,14 +46,25 @@ void PlayGround::PlaceShip(Ship* ship, Point position, Ship::Orientation orienta
 
         if (orientation == Ship::Orientation::horizontal) {
             for(size_t x = position.x; x < position.x + ship->getSize(); ++x) {
-                cells[x][position.y].ChangeState(CellStates::unknown, ship, x - position.x);
+                if (ship->isDamaged(x - position.x)) {
+                    cells[x][position.y].ChangeState(CellStates::ship, ship, x - position.x);
+
+                }
+                else {
+                    cells[x][position.y].ChangeState(CellStates::unknown, ship, x - position.x);
+                }
             }
             ship->setCoords(position);
             ship->setOrientation(orientation);
         }
         else if (orientation == Ship::Orientation::vertical) {
             for(size_t y = position.y; y < position.y + ship->getSize(); ++y) {
-                cells[position.x][y].ChangeState(CellStates::unknown, ship, y - position.y);
+                if (ship->isDamaged(y - position.y)) {
+                    cells[position.x][y].ChangeState(CellStates::ship, ship, y - position.y);
+                }
+                else  {
+                    cells[position.x][y].ChangeState(CellStates::unknown, ship, y - position.y);
+                }
             }
             ship->setCoords(position);
             ship->setOrientation(orientation);

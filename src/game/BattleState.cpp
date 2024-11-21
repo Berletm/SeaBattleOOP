@@ -65,7 +65,9 @@ void BattleState::operator<<(GameInput msg) {
         NextRound();
     }
     else {
-        std::cout << "You lost the game" << std::endl;
+        if (Getplayer().SManager.getCurrentShipAmount() == 0) {
+            std::cout << "You lost the game" << std::endl;
+        }
         game.Quit();
     }
 }

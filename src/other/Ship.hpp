@@ -49,6 +49,8 @@ public:
 
     bool isDestroyed() const;
 
+    bool isDamaged(size_t idx) const;
+
     json to_json() const {
         return json{
             {"coords", tuple(coords.x, coords.y)},

@@ -19,7 +19,7 @@ public:
     virtual ~GameState() {};
 
     ShipManager shipmanager_from_json(const json& save_file);
-    PlayGround field_from_json(const json& save_file);
+    PlayGround field_from_json(const json& save_file, ShipManager& SManager);
     AbilityManager abilitymanager_from_json(const json& save_file);
 
     bool save(const std::string& file_name);

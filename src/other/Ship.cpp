@@ -70,3 +70,10 @@ bool Ship::isDestroyed() const {
     }
     return true;
 }
+
+bool Ship::isDamaged(size_t idx) const {
+    if (segments[idx] != ShipStates::full_ship) {
+        return true;
+    }
+    return false;
+}

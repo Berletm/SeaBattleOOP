@@ -38,7 +38,7 @@ ShipManager GameState::shipmanager_from_json(const json& save_file) {
     return ShipManager;
 }
 
-PlayGround GameState::field_from_json(const json& save_file) {
+PlayGround GameState::field_from_json(const json& save_file, ShipManager& SManager) {
     PlayGround Field(save_file["size"]);
 
     const auto& cells = save_file["cells"];
@@ -47,17 +47,21 @@ PlayGround GameState::field_from_json(const json& save_file) {
         for (size_t y = 0; y < Field.getFieldSize(); ++y) {
             Ship* ship = nullptr;
 
-            if (!cells[x][y]["ship"].is_null()) {
+            /*if (!cells[x][y]["ship"].is_null()) {
                 Point coords = Point(cells[x][y]["ship"]["coords"][0], cells[x][y]["ship"]["coords"][1]);
                 size_t size = cells[x][y]["ship"]["size"];
                 bool status = cells[x][y]["ship"]["isPlaced"];
                 Ship::Orientation orientation = cells[x][y]["ship"]["Orientation"];
                 std::vector<Ship::ShipStates> segments = cells[x][y]["ship"]["segments"];
                 ship = new Ship(coords, size, orientation, segments, status);
-            }
+            }*/
 
             Field.change_cell({x, y}, ship, CellStates(cells[x][y]["state"]), size_t(cells[x][y]["segment idx"]));
         }
+    }
+
+    while (Ship* ship = SManager.getShip()) {
+        Field.PlaceShip(ship, ship->getCoords(), ship->getOrientation());
     }
 
     return Field;
@@ -110,13 +114,13 @@ std::istream& operator>>(std::istream& is, GameState& state) {
     auto bot_buff_data = save_file["bot player"]["Buff"];
 
     state.Getplayer().SManager = std::move(state.shipmanager_from_json(player_shipmanager_data));
-    state.Getplayer().Field = std::move(state.field_from_json(player_field_data));
+    state.Getplayer().Field = std::move(state.field_from_json(player_field_data, state.Getplayer().SManager));
     state.Getplayer().AManager = state.abilitymanager_from_json(abilitymanager_data);
     state.Getplayer().cursor = Point(player_cursor_data[0], player_cursor_data[1]);
     state.Getplayer().double_damage_buff = player_buff_data;
 
     state.Getbot().SManager = std::move(state.shipmanager_from_json(bot_shipmanager_data));
-    state.Getbot().Field = std::move(state.field_from_json(bot_field_data));
+    state.Getbot().Field = std::move(state.field_from_json(bot_field_data, state.Getbot().SManager));
     state.Getbot().cursor = Point(bot_cursor_data[0], bot_cursor_data[1]);
     state.Getbot().double_damage_buff = bot_buff_data;
 
