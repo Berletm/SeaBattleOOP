@@ -25,7 +25,7 @@ ShipManager GameState::shipmanager_from_json(const json& save_file) {
     for (const auto& ship: ships) {
         Point coords = Point(ship["coords"][0], ship["coords"][1]);
         size_t size = ship["size"];
-        bool status = ship["isPlaced"];
+        bool status = false;
         Ship::Orientation orientation = Ship::Orientation(ship["Orientation"]);
         std::vector<Ship::ShipStates> segments;
         for (auto& segment: ship["segments"]) {
@@ -46,15 +46,6 @@ PlayGround GameState::field_from_json(const json& save_file, ShipManager& SManag
     for (size_t x = 0; x < Field.getFieldSize(); ++x) {
         for (size_t y = 0; y < Field.getFieldSize(); ++y) {
             Ship* ship = nullptr;
-
-            /*if (!cells[x][y]["ship"].is_null()) {
-                Point coords = Point(cells[x][y]["ship"]["coords"][0], cells[x][y]["ship"]["coords"][1]);
-                size_t size = cells[x][y]["ship"]["size"];
-                bool status = cells[x][y]["ship"]["isPlaced"];
-                Ship::Orientation orientation = cells[x][y]["ship"]["Orientation"];
-                std::vector<Ship::ShipStates> segments = cells[x][y]["ship"]["segments"];
-                ship = new Ship(coords, size, orientation, segments, status);
-            }*/
 
             Field.change_cell({x, y}, ship, CellStates(cells[x][y]["state"]), size_t(cells[x][y]["segment idx"]));
         }
