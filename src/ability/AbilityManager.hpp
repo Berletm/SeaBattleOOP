@@ -36,7 +36,7 @@ public:
 
     void emptyAbilityQueue();
 
-    void getRandomAbility();
+    const std::string getRandomAbility();
 
     void getRocketBarrage();
 

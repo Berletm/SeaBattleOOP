@@ -113,17 +113,14 @@ bool PlayGround::Attack(Point p) {
     switch (this->cells[p.x][p.y].GetState()) {
         case CellStates::ship: {
             cells[p.x][p.y].ChangeSegmentState();
-            std::cout << "Hit!\n";
             return true;
         }
         case CellStates::empty: {
-            std::cout << "Miss!\n";
             return false;
         }
         case CellStates::unknown: {
             Ship* ship = cells[p.x][p.y].GetShip();
             if (ship) {
-                std::cout << "Hit!\n";
                 if (ship->getOrientation() == Ship::Orientation::horizontal) {
                     this->cells[p.x][p.y].ChangeState(CellStates::ship, ship, p.x - ship->getCoords().x);
                 }
@@ -135,7 +132,6 @@ bool PlayGround::Attack(Point p) {
                 return true;
             }
             else {
-                std::cout << "Miss!\n";
                 this->cells[p.x][p.y].ChangeState(CellStates::empty);
                 return false;
             }

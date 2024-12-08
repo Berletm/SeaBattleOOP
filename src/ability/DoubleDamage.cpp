@@ -9,7 +9,6 @@
 DoubleDamage::DoubleDamage(Player& user): user(user) {} 
 
 bool DoubleDamage::applyAbility() const{
-    std::cout << "Next attack will deal double damage!\n";
     user.double_damage_buff = true;
     return true;
 }

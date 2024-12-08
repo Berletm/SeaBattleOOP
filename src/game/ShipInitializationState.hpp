@@ -1,7 +1,7 @@
 #ifndef SHIP_INITIALIZATION_STATE_HPP_
 #define SHIP_INITIALIZATION_STATE_HPP_
 
-#include "GameInput.hpp"
+#include "game utils/CLIGameInput.hpp"
 #include "Game.hpp"
 #include "other/ShipsData.hpp"
 
@@ -23,7 +23,8 @@ public:
             {ShipType::vedette, 0}
         };
     };
-    void operator<<(GameInput msg);
+
+    void DoStateJob();
 
     size_t convert_ship_size_to_points(size_t size);
 };

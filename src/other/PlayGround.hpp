@@ -12,6 +12,7 @@ using json = nlohmann::json;
 enum class CellStates {empty, unknown, ship};
 class PlayGround{
 private:
+    friend class CLIGameOutput;
     class Cell {
     friend class PlayGround;
     public:

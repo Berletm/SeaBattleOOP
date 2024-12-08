@@ -1,38 +1,33 @@
-#include <nlohmann/json.hpp>
 #include "HumanPlayer.hpp"
-#include "game/GameInput.hpp"
-
-using json = nlohmann::json;
 
 void HumanPlayer::applyAbility(Player& target) {
     auto ability_name = AManager.top();
     AManager.pop();
 
     if (ability_name == "Scanner") {
-        GameInput input;
-        std::cout << "Input area to be scanned" << std::endl;
+        output.draw_field(target.Field, cursor, {2, 2}, true);
         while (input.InputXY(this->cursor)) {
-            system("clear");
-            std::cout << "Input area to be scanned" << std::endl;
-            std::cout << "x = " << this->cursor.x << " y = " << this->cursor.y << std::endl;
+            output.draw_field(target.Field, cursor, {2, 2}, true);
         }
     }
 
     auto ability = AbilityRegistry::instance().createAbility(ability_name, *this, target);
     auto res = ability->applyAbility();
-    std::cout << res << std::endl;
+    output.ability_msg(ability_name, res);
 }
 
 void HumanPlayer::attack(Player& target) {
     bool hitted = target.Field.Attack(cursor);
-    
+
     if (double_damage_buff) {
         hitted |= target.Field.Attack(cursor);
         double_damage_buff = false;
+        output.ability_msg("DoubleDamage", double_damage_buff);
     }
 
     if (hitted && target.Field.getShip(cursor)->isDestroyed()) {
-        AManager.getRandomAbility();
+        auto ability = AManager.getRandomAbility();
+        output.log_msg(ability);
     }
 }
 

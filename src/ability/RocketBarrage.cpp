@@ -9,8 +9,6 @@
 RocketBarrage::RocketBarrage(Player& user, Player& target): user(user), target(target) {}
 
 bool RocketBarrage::applyAbility() const {
-    std::cout << "RocketBarrage attacked the ship" << "\n";
-
     srand(time(NULL));
 
     if (target.SManager.getShipAmount() > 0) {

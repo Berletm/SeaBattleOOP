@@ -1,12 +1,19 @@
 #ifndef GAME_STATE_HPP_
 #define GAME_STATE_HPP_
 
-#include "GameInput.hpp"
+#include "./other/ShipManager.hpp"
+#include "./other/PlayGround.hpp"
+#include "./ability/AbilityManager.hpp"
+
+class HumanPlayer;
+class Player;
+class Game;
+class CLIGameInput;
 
 class GameState {
 protected:
     Game& game;
-
+    
     HumanPlayer& Getplayer();
     Player& Getbot();
 public:
@@ -15,7 +22,7 @@ public:
     
 
     GameState(Game& game): game(game) {}
-    virtual void operator<<(GameInput msg) = 0;
+    virtual void DoStateJob() = 0;
     virtual ~GameState() {};
 
     ShipManager shipmanager_from_json(const json& save_file);
