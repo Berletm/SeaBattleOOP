@@ -1,6 +1,8 @@
 #include "GameState.hpp"
 #include "Game.hpp"
 #include "FileHandler.hpp"
+#include "other/Player.hpp"
+#include "other/HumanPlayer.hpp"
 #include <ostream>
 
 HumanPlayer& GameState::Getplayer() {return game.player;}

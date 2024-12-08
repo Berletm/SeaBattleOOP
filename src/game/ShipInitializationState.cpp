@@ -1,13 +1,19 @@
 #include "ShipInitializationState.hpp"
 #include "ShipPlacementState.hpp"
 
-void ShipInitializationState::operator<<(GameInput msg) {
-    std::cout << "Input your ships" << std::endl;
+size_t ShipInitializationState::convert_ship_size_to_points(size_t size) {
+    return (size + 2) * 3 + freedom_coefficient;
+}
+
+void ShipInitializationState::DoStateJob() {
+    game.output.log_msg("Input your ships");
+
     ssize_t min_cost = convert_ship_size_to_points(1);
+    
     while (points - min_cost >= 0) {
         size_t current_ship_size = 1;
-        while(msg.InputX(current_ship_size)) {
-            system("clear");
+        while(game.input.InputX(current_ship_size)) {
+            game.output.clear();
             DisplayData(data);
             std::cout << "Current ship: " << (current_ship_size % 4) + 1 << std::endl;
         }
@@ -30,8 +36,4 @@ void ShipInitializationState::operator<<(GameInput msg) {
     catch (const GameException& e) {
         e.what();
     }
-}
-
-size_t ShipInitializationState::convert_ship_size_to_points(size_t size) {
-    return (size + 2) * 3 + freedom_coefficient;
 }

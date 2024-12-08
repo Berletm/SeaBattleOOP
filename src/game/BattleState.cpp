@@ -1,76 +1,8 @@
 #include "BattleState.hpp"
 #include "ShipPlacementState.hpp"
+#include "other/PlayGround.hpp"
 #include <chrono>
-
-void BattleState::operator<<(GameInput msg) {
-    std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
-    std::uniform_int_distribution<size_t> dist(0, Getbot().Field.getFieldSize() - 1);
-
-    while (game.IsRunning() && Getplayer().SManager.getCurrentShipAmount() && Getbot().SManager.getCurrentShipAmount()) {
-        if (current_turn == Turn::HUMAN) {
-            auto action = msg.InputAction();
-            if (action == GameInput::action::PRIMARY_ACTION) {
-                while (msg.InputXY(Getplayer().cursor)) {
-                    system("clear");
-                    std::cout << "x = " << Getplayer().cursor.x << " y = " << Getplayer().cursor.y << std::endl;
-                }
-                try {
-                    Getbot().Field.Attack(Getplayer().cursor);
-                    system("clear");
-                    Getbot().Field.DisplayPlayground();
-                }
-                catch (const OutOfFieldAttackException& e) {
-                    std::cout << e.what() << std::endl;
-
-                    continue;
-                }
-            }
-            else if (action == GameInput::action::SECONDARY_ACTION) {
-                system("clear");
-                try {
-                    Getplayer().applyAbility(Getbot());
-                }
-                catch (const NoAbilityException& e) {
-                    std::cout << e.what() << std::endl;
-                }
-                continue;
-            }
-            else if (action == GameInput::action::SAVE) {
-                std::cout << "Input save file name" << std::endl;
-                std::string file_name;
-                std::cin >> file_name;
-                save(file_name);
-                game.Quit();
-            }
-            else if (action == GameInput::action::LOAD) {
-                std::cout << "Input save file name" << std::endl;
-                std::string file_name;
-                std::cin >> file_name;
-                load(file_name);
-                continue;
-            }
-            else {
-                std::cout << "try again" << std::endl;
-                continue;
-            }
-            SwitchTurn();
-        }
-        else {
-            Getbot().cursor = {dist(rnd), dist(rnd)};
-            Getplayer().Field.Attack(Getbot().cursor);
-            SwitchTurn();
-        }
-    }
-    if (game.IsRunning() && Getplayer().SManager.getCurrentShipAmount()) {
-        NextRound();
-    }
-    else {
-        if (Getplayer().SManager.getCurrentShipAmount() == 0) {
-            std::cout << "You lost the game" << std::endl;
-        }
-        game.Quit();
-    }
-}
+#include <random>
 
 void BattleState::SwitchTurn() {
     current_turn = (current_turn == Turn::BOT) ? Turn::HUMAN: Turn::BOT;
@@ -82,3 +14,42 @@ void BattleState::NextRound() {
     ShipPlacementState sps(game);
     sps.BotShipPlacement();
 }
+
+ void BattleState::PlayerMove() { 
+    while (game.input.InputXY(Getplayer().cursor)) {
+        game.output.draw_field(game.bot.Field, game.player.cursor);
+    }
+    try {
+        Getplayer().attack(Getbot());
+    }
+    catch (const OutOfFieldAttackException& e) {
+        std::cout << e.what() << std::endl;
+    }
+    SwitchTurn();
+ }
+
+ void BattleState::BotMove() {
+    std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
+    std::uniform_int_distribution<size_t> dist(0, Getbot().Field.getFieldSize() - 1);
+
+    Getbot().cursor = {dist(rnd), dist(rnd)};
+    Getplayer().Field.Attack(Getbot().cursor);
+    SwitchTurn();
+ }
+
+ void BattleState::UseSpell() { 
+    try {
+        Getplayer().applyAbility(Getbot());
+    }
+    catch (const NoAbilityException& e) {
+        std::cout << e.what() << std::endl;
+    }
+ }
+
+ void BattleState::DoStateJob() {
+    
+ }
+
+ Turn BattleState::GetTurn() {
+    return current_turn;
+ }

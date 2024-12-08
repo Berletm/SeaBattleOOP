@@ -9,12 +9,12 @@
 Scanner::Scanner(Player& user, Player& target): user(user), target(target) {}
 
 bool Scanner::applyAbility() const {
-    if (!user.Field.isInPlayGround(user.cursor) || !user.Field.isInPlayGround({user.cursor.x + 2, user.cursor.y + 2})) {
+    if (!user.Field.isInPlayGround(user.cursor) || !user.Field.isInPlayGround({user.cursor.x + 1, user.cursor.y + 1})) {
         throw OutOfFieldAttackException("Can not scan area located out of field");
     }
-    std::cout << "Scanner used on field" << "\n";
-    for (size_t x = user.cursor.x; x < user.cursor.x + 2; ++x) {
-        for (size_t y = user.cursor.y; y < user.cursor.y + 2; ++y) {
+
+    for (size_t x = user.cursor.x; x < user.cursor.x + 1; ++x) {
+        for (size_t y = user.cursor.y; y < user.cursor.y + 1; ++y) {
             if (target.Field.getCellState({x, y}) == CellStates::ship) {
                 return true;
             }

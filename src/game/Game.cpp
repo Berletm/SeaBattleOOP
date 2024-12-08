@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include "GameInput.hpp"
 #include "FieldCreatingState.hpp"
 #include "ShipInitializationState.hpp"
 #include "ShipPlacementState.hpp"
@@ -10,22 +9,35 @@ Game::Game() {
 }
 
 void Game::StartNewGame() {
-    while (is_running) {
-        (*current_state) << input;
-    }
+    ChangeState(new FieldCreatingState(*this));
+    is_running = true;
+    current_state->DoStateJob(); // field creating state
+    current_state->DoStateJob(); // ship initialization state
+    current_state->DoStateJob(); // ship placement state
 }
 
 void Game::Play() {
     is_running = true;
-    std::cout << "Enter 'l' to load or press any key to start new game" << std::endl;
-    if (input.InputAction() == GameInput::action::LOAD) {
-        std::cout << "Enter save file name" << std::endl;
-        std::string save_file;
-        std::cin >> save_file;
-        current_state->load(save_file);
-        this->ChangeState(new BattleState(*this));
+    output.log_msg("Press [l] to load saved game");
+    if (input.InputAction() == action::LOAD) {
+        Load();
     }
-    StartNewGame();
+    else {
+        StartNewGame();
+    }
+
+}
+
+void Game::Load() {
+    output.log_msg("Enter save file name");
+    current_state->load(input.InputString());
+    this->ChangeState(new BattleState(*this));
+}
+
+
+void Game::Save() {
+    output.log_msg("Enter save file name");
+    current_state->save(input.InputString());
 }
 
 void Game::ChangeState(GameState* new_state) {
@@ -43,4 +55,57 @@ bool Game::IsRunning() {
 
 void Game::Quit() {
     is_running = false;
+}
+
+void Game::PlayerAttack() {
+    auto res = dynamic_cast<BattleState*>(current_state);
+    if (res) {
+        res->PlayerMove();
+    }
+}
+
+void Game::BotAttack() {
+    auto res = dynamic_cast<BattleState*>(current_state);
+    if (res) {
+        res->BotMove();
+    }
+}
+
+void Game::ApplyAbility() {
+    auto res = dynamic_cast<BattleState*>(current_state);
+    if (res) {
+        res->UseSpell();
+    }
+}
+
+bool Game::IsBotTurn() {
+    auto res = dynamic_cast<BattleState*>(current_state);
+    return res->GetTurn() == Turn::BOT;
+}
+
+void Game::CheckGameState() {
+    if (is_running && bot.SManager.getCurrentShipAmount() == 0) {
+        output.log_msg("You've win the game");
+        output.log_msg("Do you want to start next round?");
+        output.log_msg("Press [e] to start or press any key to exit");
+
+        if (input.InputAction() == action::PRIMARY_ACTION) {
+            auto res = dynamic_cast<BattleState*>(current_state);
+            res->NextRound();
+        }
+        else {
+            Quit();
+        }
+    }
+    else if (is_running && player.SManager.getCurrentShipAmount() == 0) {
+        output.log_msg("You've lost the game");
+        output.log_msg("Do you want to start new game?");
+        output.log_msg("Press [e] to start or press any key to exit");
+        if (input.InputAction() == action::PRIMARY_ACTION) {
+            StartNewGame();
+        }
+        else {
+            Quit();
+        }
+    }
 }

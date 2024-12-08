@@ -1,0 +1,12 @@
+{
+    "s" : "down",
+    "w" : "up",
+    "a" : "left",
+    "d" : "right",
+    "e" : "primary_action",
+    "r" : "rotate",
+    "q" : "secondary_action",
+    "t" : "save",
+    "l" : "load",
+    "v" : "start_new_game"
+}

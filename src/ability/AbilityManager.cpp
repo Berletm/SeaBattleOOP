@@ -10,11 +10,12 @@ void AbilityManager::emptyAbilityQueue() {
     }
 }
 
-void AbilityManager::getRandomAbility() {
+const std::string AbilityManager::getRandomAbility() {
     srand(time(NULL));
     AbilityRegistry& registry = AbilityRegistry::instance();
     auto ability = *(registry.begin() + (rand() % registry.size()));
     avalaible_abilities.push_back(ability);
+    return ability;
 }
 
 void AbilityManager::getAbility(const std::string& ability) {

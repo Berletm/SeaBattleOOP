@@ -37,6 +37,15 @@ void FileHandler::write(GameState& current_state) {
     }
 }
 
+void FileHandler::read(CLIGameInput& game_input) { 
+    if (input_file.is_open()) {
+        input_file >> game_input;
+    }
+    else {
+        throw std::runtime_error("File for writing is not open\n");
+    }
+}
+
 void FileHandler::close_read() {
     if (input_file.is_open()) {
         input_file.close();

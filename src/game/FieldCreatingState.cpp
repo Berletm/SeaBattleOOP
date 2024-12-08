@@ -1,9 +1,9 @@
 #include "FieldCreatingState.hpp"
 #include "ShipInitializationState.hpp"
 
-void FieldCreatingState::operator<<(GameInput msg) {
-    while (msg.InputX(size)) {
-        system("clear");
+void FieldCreatingState::DoStateJob() { 
+    while (game.input.InputX(size)) {
+        game.output.clear();
         std::cout << "Field size: " << size << " width" << size << " height" << std::endl;
     }
     try {
