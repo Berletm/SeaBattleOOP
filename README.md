@@ -14,3 +14,10 @@
 <p align="center" width="100%">
     <img src="https://github.com/Berletm/SeaBattleOOP/blob/main/diagrams/game-diagram.png?raw=true">
 </p>
+
+<p align = "center"><b><i>
+  UML diagram for game utils classes from project.
+</i></b></p>
+<p align="center" width="100%">
+    <img src="https://github.com/Berletm/SeaBattleOOP/blob/main/diagrams/game-utils-diagram.png?raw=true">
+</p>
