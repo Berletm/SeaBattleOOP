@@ -4,12 +4,17 @@ void HumanPlayer::applyAbility(Player& target) {
     auto ability_name = AManager.top();
     AManager.pop();
 
+    output.ability_msg(ability_name);
+
     if (ability_name == "Scanner") {
         output.clear();
-        output.draw_field(target.Field, cursor, {2, 2}, true);
+        output.draw_fields(this->Field, target.Field, cursor, {2, 2}, true);
+        output.ability_msg(ability_name);
+
         while (input.InputXY(this->cursor)) {
             output.clear();
-            output.draw_field(target.Field, cursor, {2, 2}, true);
+            output.draw_fields(this->Field, target.Field, cursor, {2, 2}, true);
+            output.ability_msg(ability_name);
         }
     }
 
@@ -24,7 +29,6 @@ void HumanPlayer::attack(Player& target) {
     if (double_damage_buff) {
         hitted |= target.Field.Attack(cursor);
         double_damage_buff = false;
-        output.ability_msg("DoubleDamage", double_damage_buff);
     }
 
     if (hitted && target.Field.getShip(cursor)->isDestroyed()) {

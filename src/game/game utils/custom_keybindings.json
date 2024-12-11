@@ -1,6 +1,6 @@
 {
-    "s" : "down",
     "s" : "up",
+    "w" : "up",
     "a" : "left",
     "d" : "right",
     "e" : "primary_action",
@@ -8,5 +8,6 @@
     "q" : "secondary_action",
     "t" : "save",
     "l" : "load",
-    "v" : "start_new_game"
+    "v" : "start_new_game",
+    "y" : "quit"
 }

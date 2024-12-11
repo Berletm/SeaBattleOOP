@@ -14,10 +14,10 @@ CLIGameOutput& CLIGameOutput::instance() {
 
 void CLIGameOutput::ability_msg(std::string_view ability_name) {
     if (ability_name == "Scanner") {
-        std::cout << "Input area to be scanned" << std::endl;
+        std::cout << "Choose area to be scanned" << std::endl;
     }
     if (ability_name == "DoubleDamage") {
-        std::cout << "Next attack will deal double damage" << std::endl;
+        std::cout << "Double damage buff applied" << std::endl;
     }
     if (ability_name == "RocketBarrage") {
         std::cout << "Rocket barrage attacked ship" << std::endl;
@@ -29,16 +29,10 @@ void CLIGameOutput::ability_msg(std::string_view ability_name, bool flag) {
         if (ability_name == "Scanner") {
             std::cout << "Scanner found ship there" << std::endl;
         }
-        if (ability_name == "DoubleDamage") {
-            std::cout << "Double damage buff applied" << std::endl;
-        }
     }
     else {
         if (ability_name == "Scanner") {
             std::cout << "Scanner did not find any ship here" << std::endl;
-        }
-        if (ability_name == "DoubleDamage") {
-            std::cout << "Double damage buff expired" << std::endl;
         }
     }
 }
