@@ -1,13 +1,13 @@
 #ifndef SHIP_PLACEMENT_STATE_HPP_
 #define SHIP_PLACEMENT_STATE_HPP_
 
-#include "game utils/CLIGameInput.hpp"
-#include "Game.hpp"
+#include "GameState.hpp"
+
+class Game;
 
 class ShipPlacementState final: public GameState {
 public:
-    inline explicit ShipPlacementState(Game& game): GameState(game) {
-    }
+    explicit ShipPlacementState(Game& game) noexcept(true);
     
     void DoStateJob();
 

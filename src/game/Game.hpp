@@ -28,7 +28,7 @@ protected:
     CLIGameInput input = CLIGameInput::instance();
 
     CLIGameOutput output = CLIGameOutput::instance();
-
+    
     Player bot;
     HumanPlayer player;
     GameState* current_state;

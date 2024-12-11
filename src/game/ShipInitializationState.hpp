@@ -1,9 +1,13 @@
 #ifndef SHIP_INITIALIZATION_STATE_HPP_
 #define SHIP_INITIALIZATION_STATE_HPP_
 
-#include "game utils/CLIGameInput.hpp"
-#include "Game.hpp"
 #include "other/ShipsData.hpp"
+#include "GameState.hpp"
+
+#include <vector>
+#include <cstddef>
+
+class Game;
 
 class ShipInitializationState final: public GameState {
 private:
@@ -13,16 +17,7 @@ private:
     size_t ship_counter;
     ShipData data;
 public:
-    inline ShipInitializationState(Game& game): GameState(game) {
-        points = pow(Getplayer().Field.getFieldSize(), 2);
-        ship_counter = 0;
-        data = {
-            {ShipType::battleship, 0},
-            {ShipType::cruiser, 0},
-            {ShipType::destroyer, 0},
-            {ShipType::vedette, 0}
-        };
-    };
+    explicit ShipInitializationState(Game& game) noexcept(true);
 
     void DoStateJob();
 

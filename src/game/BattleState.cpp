@@ -1,8 +1,13 @@
 #include "BattleState.hpp"
 #include "ShipPlacementState.hpp"
-#include "other/PlayGround.hpp"
+#include "Game.hpp"
 #include <chrono>
 #include <random>
+
+BattleState::BattleState(Game& game) noexcept(true): GameState(game) {
+    game.output.log_msg("Now start battle!");
+    current_turn = Turn::HUMAN;
+}
 
 void BattleState::SwitchTurn() {
     current_turn = (current_turn == Turn::BOT) ? Turn::HUMAN: Turn::BOT;
@@ -17,13 +22,15 @@ void BattleState::NextRound() {
 
  void BattleState::PlayerMove() { 
     while (game.input.InputXY(Getplayer().cursor)) {
-        game.output.draw_field(game.bot.Field, game.player.cursor);
+        game.output.clear();
+        game.output.draw_fields(game.player.Field, game.bot.Field, game.player.cursor);
+        game.output.display_buff(game.player.double_damage_buff);
     }
     try {
         Getplayer().attack(Getbot());
     }
     catch (const OutOfFieldAttackException& e) {
-        std::cout << e.what() << std::endl;
+        game.output.log_msg(e.what());
     }
     SwitchTurn();
  }
@@ -42,7 +49,7 @@ void BattleState::NextRound() {
         Getplayer().applyAbility(Getbot());
     }
     catch (const NoAbilityException& e) {
-        std::cout << e.what() << std::endl;
+        game.output.log_msg(e.what());
     }
  }
 

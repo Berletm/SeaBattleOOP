@@ -3,6 +3,56 @@ compilation_database_dir: build/
 # Change to directory where diagram should be written
 output_directory: diagrams
 diagrams:
+  game-utils-diagram:
+    type: class
+
+    glob:
+      - src/game/game utils/GameControl.hpp
+      - src/game/game utils/GameRenderer.hpp
+
+    exclude:
+      namespaces:
+        - std
+        - nlohmann
+        - PlayGround
+        - AbilityRegistry
+        - Ship
+      relationships:
+        - dependency
+      elements:
+        - Game
+        - BattleState
+        - FieldCreatingState
+        - ShipManager
+        - PlayGround
+        - AbilityManager
+        - Ship
+        - Point
+        - AbilityRegistry
+        - Scanner
+        - DoubleDamage
+        - RocketBarrage
+        - GameException
+        - NoAbilityException
+        - CollisionException
+        - OutOfFieldAttackException
+        - WrongShipSizeException
+        - ShipPlacementState
+        - GameState
+        - ShipInitializationState
+        - Player
+        - HumanPlayer
+        - AbilityInterface
+        - WrongShipAmountException
+        - CellStates
+
+
+    include:
+      context:
+        - GameControl
+        - GameRenderer
+
+
   abilties-diagram:
     type: class
     glob:
@@ -35,6 +85,10 @@ diagrams:
     include:
       context:
         - GameState
+        - FieldCreatingState
+        - ShipInitializationState
+        - ShipPlacementState
+        - BattleState
         - GameInput
         - FileHandler
         - Player
@@ -54,3 +108,15 @@ diagrams:
         - Scanner
         - DoubleDamage
         - RocketBarrage
+  
+  full-diagram:
+    type: class
+    glob:
+      - src/*.cpp
+      - src/*.hpp
+    exclude:
+      namespaces:
+        - std
+        - nlohmann
+      relationships:
+        - dependency

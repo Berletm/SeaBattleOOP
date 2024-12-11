@@ -1,0 +1,101 @@
+@startuml
+class "CLIGameOutput" as C_0010523921033465864551
+class C_0010523921033465864551 {
+-CLIGameOutput() = default : void
+..
++ability_msg(std::string_view ability_name) : void
++ability_msg(std::string_view ability_name, bool flag) : void
++clear() : void
++convert_number_to_color(size_t n) const : const std::string
++display_buff(bool flag) const : void
++draw_field(PlayGround & field, Point cursor = = {100, 100}, Point cursor_end = = {0, 0}, bool flag = false) : void
++draw_field_without_fog(PlayGround & field, Point cursor = = {100, 100}, Point cursor_end = = {0, 0}, bool flag = false) : void
++draw_fields(PlayGround & player_field, PlayGround & bot_field, Point cursor = = {100, 100}, Point cursor_end = = {0, 0}, bool flag = false) : void
++init_msg(GameState * current_state, size_t number) : void
+{static} +instance() : CLIGameOutput &
++log_msg(std::string_view msg) : void
++point_msg(const Point & p) : void
+__
+-BLUE_SQUARE : const std::string
+-GREEN_SQUARE : const std::string
+-MAGENTA_SQUARE : const std::string
+-ORANGE_SQUARE : const std::string
+-RED_SQUARE : const std::string
+-WHITE_SQUARE : const std::string
+}
+enum "action" as C_0002116974315009242281
+enum C_0002116974315009242281 {
+CURSOR_DOWN
+CURSOR_UP
+CURSOR_LEFT
+CURSOR_RIGHT
+PRIMARY_ACTION
+ROTATE
+SECONDARY_ACTION
+SAVE
+LOAD
+START_NEW_GAME
+INVALID
+QUIT
+}
+class "CLIGameInput" as C_0003955630828458704801
+class C_0003955630828458704801 {
+-CLIGameInput() : void
+..
++CheckBinds() const : void
++ConvertCharToAction(const char c) const : action
++InputAction() : action
++InputString() const : const std::string
++InputX(size_t & x) : bool
++InputXY(Point & p) : bool
++InputXYR(Point & p, Ship::Orientation & r) : bool
+{static} +instance() : CLIGameInput &
+__
+#compulsory_binds : std::unordered_map<std::string,action>
+#custom_binds : const std::string
+#default_keybinds : const std::string
+#keybinds : std::unordered_map<char,action>
+-output : CLIGameOutput
+}
+class "GameControl<Input,Renderer>" as C_0002171273089731347704
+class C_0002171273089731347704 {
++GameControl(Game & game) : void
+..
++run() : void
+__
+-actions : std::map<action,std::function<void ()>>
+-current_session : Game &
+-input : Input
+-output : Renderer
+}
+class "GameControl<T1,T2>" as C_0001893234259451731329
+class C_0001893234259451731329 {
+__
+}
+class "GameRenderer<T>" as C_0013769139594912969944
+class C_0013769139594912969944 {
+__
+}
+class "GameRenderer<Output>" as C_0016155596213695444992
+class C_0016155596213695444992 {
+-GameRenderer(Game & game) : void
+..
+{static} +instance(Game & game) : GameRenderer<T> &
++render() : void
++render_ability_msg(std::string_view msg) : void
++render_ability_res_msg(std::string_view msg, bool res) : void
++render_attack() : void
++render_msg(std::string_view msg) : void
++update() : void
+__
+-game : Game &
+-output : Output
+}
+C_0003955630828458704801 o-- C_0010523921033465864551 : -output
+C_0003955630828458704801 o-- C_0002116974315009242281 : #keybinds
+C_0003955630828458704801 o-- C_0002116974315009242281 : #compulsory_binds
+C_0002171273089731347704 o-- C_0002116974315009242281 : -actions
+
+'Generated with clang-uml, version 0.5.6
+'LLVM version Ubuntu clang version 18.1.3 (1ubuntu1)
+@enduml

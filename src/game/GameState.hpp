@@ -8,7 +8,6 @@
 class HumanPlayer;
 class Player;
 class Game;
-class CLIGameInput;
 
 class GameState {
 protected:

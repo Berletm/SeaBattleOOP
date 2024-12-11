@@ -6,7 +6,7 @@ class Game;
 #include "./other/Ship.hpp"
 #include "CLIGameOutput.hpp"
 
-enum class action {CURSOR_DOWN, CURSOR_UP, CURSOR_LEFT, CURSOR_RIGHT, PRIMARY_ACTION, ROTATE, SECONDARY_ACTION, SAVE, LOAD, START_NEW_GAME, INVALID};
+enum class action {CURSOR_DOWN, CURSOR_UP, CURSOR_LEFT, CURSOR_RIGHT, PRIMARY_ACTION, ROTATE, SECONDARY_ACTION, SAVE, LOAD, START_NEW_GAME, INVALID, QUIT};
 
 class CLIGameInput {
 private:
@@ -28,7 +28,8 @@ protected:
     {"secondary_action", action::SECONDARY_ACTION}, 
     {"save", action::SAVE},
     {"load", action::LOAD},
-    {"start_new_game", action::START_NEW_GAME}
+    {"start_new_game", action::START_NEW_GAME},
+    {"quit", action::QUIT}
     };
 public:
     static CLIGameInput& instance();
