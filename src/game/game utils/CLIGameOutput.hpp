@@ -19,17 +19,27 @@ private:
     const std::string MAGENTA_SQUARE = "\033[45m  \033[0m";
 public:
     static CLIGameOutput& instance();
+
     void ability_msg(std::string_view ability_name);
+
     void ability_msg(std::string_view ability_name, bool flag);
+
     void log_msg(std::string_view msg);
-    void init_msg(GameState* current_state);
+
+    void init_msg(GameState* current_state, size_t number);
+
     void point_msg(const Point& p);
-    void exception_msg(std::string exception);
-    void draw_field_without_fog(PlayGround& field, Point cursor, Point cursor_end = {0, 0}, bool flag = false);
-    void draw_field(PlayGround& field, Point cursor, Point cursor_end = {0, 0}, bool flag = false);
-    void draw_field_ship_placement(PlayGround& field, Point cursor, Point cursor_end, bool flag = false);
+
+    void draw_field_without_fog(PlayGround& field, Point cursor = {100, 100}, Point cursor_end = {0, 0}, bool flag = false);
+
+    void draw_field(PlayGround& field, Point cursor = {100, 100}, Point cursor_end = {0, 0}, bool flag = false);
+
+    void draw_fields(PlayGround& player_field, PlayGround& bot_field, Point cursor = {100, 100}, Point cursor_end = {0, 0}, bool flag = false);
+
     const std::string convert_number_to_color(size_t n) const;
+
     void display_buff(bool flag) const;
+    
     void clear();
 };
 

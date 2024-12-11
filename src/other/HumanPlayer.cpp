@@ -5,8 +5,10 @@ void HumanPlayer::applyAbility(Player& target) {
     AManager.pop();
 
     if (ability_name == "Scanner") {
+        output.clear();
         output.draw_field(target.Field, cursor, {2, 2}, true);
         while (input.InputXY(this->cursor)) {
+            output.clear();
             output.draw_field(target.Field, cursor, {2, 2}, true);
         }
     }

@@ -8,5 +8,6 @@
     "q" : "secondary_action",
     "t" : "save",
     "l" : "load",
-    "v" : "start_new_game"
+    "v" : "start_new_game",
+    "y" : "quit"
 }

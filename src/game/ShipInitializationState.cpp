@@ -1,5 +1,17 @@
 #include "ShipInitializationState.hpp"
 #include "ShipPlacementState.hpp"
+#include "Game.hpp"
+
+ShipInitializationState::ShipInitializationState(Game& game) noexcept(true): GameState(game) {
+    points = pow(Getplayer().Field.getFieldSize(), 2);
+    ship_counter = 0;
+    data = {
+        {ShipType::battleship, 0},
+        {ShipType::cruiser, 0},
+        {ShipType::destroyer, 0},
+        {ShipType::vedette, 0}
+    };
+};
 
 size_t ShipInitializationState::convert_ship_size_to_points(size_t size) {
     return (size + 2) * 3 + freedom_coefficient;
@@ -15,7 +27,7 @@ void ShipInitializationState::DoStateJob() {
         while(game.input.InputX(current_ship_size)) {
             game.output.clear();
             DisplayData(data);
-            std::cout << "Current ship: " << (current_ship_size % 4) + 1 << std::endl;
+            game.output.init_msg(this, (current_ship_size % 4) + 1 );
         }
         current_ship_size = (current_ship_size % 4) + 1;
         ssize_t ship_cost = convert_ship_size_to_points(current_ship_size);
@@ -34,6 +46,6 @@ void ShipInitializationState::DoStateJob() {
         game.ChangeState(new ShipPlacementState(game));
     }
     catch (const GameException& e) {
-        e.what();
+        game.output.log_msg(e.what());
     }
 }

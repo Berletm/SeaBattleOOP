@@ -1,6 +1,11 @@
 #include "ShipPlacementState.hpp"
 #include "BattleState.hpp"
+#include "Game.hpp"
 #include <chrono>
+
+ShipPlacementState::ShipPlacementState(Game& game) noexcept(true): GameState(game) {
+    game.output.log_msg("Now place your ships!");
+}
 
 void ShipPlacementState::BotShipPlacement() {
     std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
@@ -23,9 +28,6 @@ void ShipPlacementState::BotShipPlacement() {
 }
 
 void ShipPlacementState::DoStateJob() {
-    
-    game.output.log_msg("Now place your ships!");
-
     while(Ship* player_ship = Getplayer().SManager.getShip()) {
         Point& player_cursor = Getplayer().cursor;
         Ship::Orientation rotate = Ship::Orientation::horizontal;
@@ -39,7 +41,7 @@ void ShipPlacementState::DoStateJob() {
             else {
                 game.output.draw_field(Getplayer().Field, player_cursor, {1, player_ship->getSize()}, true);
             }
-            std::cout << "rotation = " << size_t(rotate) << std::endl;
+            game.output.init_msg(this, size_t(rotate));
         }
         try {
             Getplayer().Field.PlaceShip(player_ship, player_cursor, rotate);

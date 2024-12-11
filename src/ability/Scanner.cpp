@@ -13,8 +13,8 @@ bool Scanner::applyAbility() const {
         throw OutOfFieldAttackException("Can not scan area located out of field");
     }
 
-    for (size_t x = user.cursor.x; x < user.cursor.x + 1; ++x) {
-        for (size_t y = user.cursor.y; y < user.cursor.y + 1; ++y) {
+    for (size_t x = user.cursor.x; x <= user.cursor.x + 1; ++x) {
+        for (size_t y = user.cursor.y; y <= user.cursor.y + 1; ++y) {
             if (target.Field.getCellState({x, y}) == CellStates::ship) {
                 return true;
             }

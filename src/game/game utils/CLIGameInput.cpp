@@ -9,8 +9,8 @@ CLIGameInput::CLIGameInput() {
         fh.read(*this);
         }
     catch(const std::exception& e) {
-        std::cout << e.what() << std::endl;
-        std::cout << "default keybinds applied" << std::endl;
+        output.log_msg(e.what());
+        output.log_msg("default keybinds applied");
         FileHandler fh(default_keybinds);
         fh.open_for_read();
         fh.read(*this);
